@@ -1,47 +1,111 @@
 import React from 'react'
+import { AiOutlineEye, AiTwotoneHeart, AiTwotoneStar } from 'react-icons/ai'
+import { Link } from 'react-router-dom'
+import { IoMdAdd } from 'react-icons/io'
+import { HiOutlineMinusSm } from 'react-icons/hi'
+import Button from '../Button/Button'
 
 const Product = (props) => {
     const product = props.product
     return (
-        <div class="relative w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
-            <img class="h-60 rounded-t-lg object-cover" src={product.url} alt="product image" />
+        <div>
+            <Link to='/product-details/1'>
+                <div className="relative">
+                    <div className="container">
+                        <div className="max-w-md w-full rounded-xl p-6 bg-white shadow-md">
+                            <div className="flex flex-col ">
+                                <div className="">
+                                    <div className="relative h-62 w-full mb-3">
+                                        <div className="absolute flex flex-col top-0 right-0 p-3">
+                                            <button className="transition ease-in duration-300  hover:text-purple-500 hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1 hover:border border-text"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg></button>
+                                        </div>
+                                        <img src={product.url} alt="Just a flower" className=" w-full object-fill rounded-2xl" />
+                                    </div>
+                                    <div className="flex-auto justify-evenly">
+                                        <div className="flex flex-wrap ">
+                                            <div className="w-full flex-none text-sm flex items-center text-gray-600 justify-between">
+                                                <div className='flex items-center'>
+                                                    <span className="h-4 w-4 text-yellow-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                        <AiTwotoneStar />
+                                                    </span>
+                                                    <span className="text-gray-400 whitespace-nowrap mr-3">{product.star}</span>
+                                                </div>
+                                                <div className='flex items-center'>
+                                                    <span className="h-4 w-4 text-red-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                        <AiTwotoneHeart />
+                                                    </span>
+                                                    <span className="text-gray-400 whitespace-nowrap mr-3">{product.heart}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center w-full justify-between min-w-0 ">
+                                                <h2 className="text-lg mr-auto cursor-pointer text-text hover:text-purple-500 truncate ">{product.name}</h2>
 
-            <span class="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">Sale</span>
-            <div class="mt-4 px-5 pb-5">
-
-                <h5 class="text-xl font-semibold tracking-tight text-slate-900">{product.name}</h5>
-
-                <div class="mt-2.5 mb-5 flex items-center">
-                    <span class="mr-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">{product.star}</span>
-                    <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                    <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
+                                            </div>
+                                        </div>
+                                        <div className='flex items-end'>
+                                            <span className="text-xl text-text font-semibold mt-1">${product.priceSale}.00</span>
+                                            <span className='text-gray-400 ml-3'><strike>{product.price}.00</strike></span>
+                                        </div>
+                                        <div className="lg:flex  py-4  text-sm text-gray-600">
+                                            <div className="w-1/2 inline-flex items-center mb-3 mr-1">
+                                                <div className="w-full flex-none text-sm flex items-center text-gray-600">
+                                                    <ul className="flex flex-row justify-center items-center space-x-2">
+                                                        <li className="">
+                                                            <span className="block p-1 border-2 hover:border-blue-600 rounded-full transition ease-in duration-300">
+                                                                <a href="#blue" className="block w-3 h-3 bg-blue-600 rounded-full"></a>
+                                                            </span>
+                                                        </li>
+                                                        <li className="">
+                                                            <span className="block p-1 border-2 hover:border-yellow-400 rounded-full transition ease-in duration-300">
+                                                                <a href="#yellow" className="block w-3 h-3  bg-yellow-400 rounded-full"></a>
+                                                            </span>
+                                                        </li>
+                                                        <li className="">
+                                                            <span className="block p-1 border-2 hover:border-red-500 rounded-full transition ease-in duration-300">
+                                                                <a href="#red" className="block w-3 h-3  bg-red-500 rounded-full"></a>
+                                                            </span>
+                                                        </li>
+                                                        <li className="">
+                                                            <span className="block p-1 border-2 hover:border-green-500 rounded-full transition ease-in duration-300">
+                                                                <a href="#green" className="block w-3 h-3  bg-green-500 rounded-full"></a>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className="w-1/2 inline-flex items-center mb-3 ml-1">
+                                                <span className="text-secondary whitespace-nowrap mr-1">Size:</span>
+                                                <div className="cursor-pointer text-gray-400 ">
+                                                    <span className="hover:text-purple-500 p-1 py-0">S</span>
+                                                    <span className="hover:text-purple-500 p-1 py-0">M</span>
+                                                    <span className="hover:text-purple-500 p-1 py-0">L</span>
+                                                    <span className="hover:text-purple-500 p-1 py-0">XL</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex space-x-2 text-sm font-medium w-full">
+                                            <div className='w-5/12 flex items-center'>
+                                                <span className='w-4/12 border py-3 rounded-l-full'><HiOutlineMinusSm className='m-auto' /></span>
+                                                <input className='w-4/12 border h-full px-2' value={1}></input>
+                                                <span className='w-4/12 border py-3 rounded-r-full'><IoMdAdd className='m-auto' /></span>
+                                            </div>
+                                            <div className="w-5/12 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 justify-center">
+                                                <Button name='Add Cart'/>
+                                            </div>
+                                            <span className="w-2/12 flex items-center justify-center transition ease-in duration-300 hover:bg-gray-800 border hover:border-gray-500 hover:text-white  hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-1">
+                                                <AiOutlineEye className='h-6 w-6'/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center justify-between">
-                    <p>
-                        <span class="text-3xl font-bold text-slate-900">${product.priceSale}</span>
-                        <span class="text-sm text-slate-900 line-through">${product.price}</span>
-                    </p>
-                    <a href="#" class="flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        Add to cart</a
-                    >
-                </div>
-            </div>
+
+            </Link>
         </div>
     )
 }

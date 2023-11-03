@@ -79,7 +79,7 @@ const Headder = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div onClick={handleConnect} className='h-10 m-auto'>
+                            <div onClick={handleConnect} className='h-10 m-auto w-5/12'>
                                 <Button name='Connect' />
                             </div>
                         )

@@ -7,6 +7,7 @@ import Login from './pages/Login/Login/Login';
 import Register from './pages/Login/Register/Register';
 import Men from './pages/Collection/Men';
 import Women from './pages/Collection/Women';
+import ProductDetails from './component/ProductDetails/ProductDetails';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path='sign-up' element={<Register />} />
           <Route path='men' element={<Men />} />
           <Route path='women' element={<Women />} />
+          <Route path='product-details/:id' element={<ProductDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

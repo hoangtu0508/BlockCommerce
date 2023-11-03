@@ -37,7 +37,8 @@ const Men = () => {
             id: 1,
             name: "Nike Air MX Super 5000",
             url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: "5",
+            star: 5.0,
+            heart: 650,
             price: 20,
             priceSale: 15,
         },
@@ -45,7 +46,8 @@ const Men = () => {
             id: 2,
             name: "Nike Air MX Super 5000 1",
             url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: "5",
+            star: 4.8,
+            heart: 650,
             price: 20,
             priceSale: 15,
         },
@@ -53,15 +55,17 @@ const Men = () => {
             id: 3,
             name: "Nike Air MX Super 5000 3",
             url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: "5",
+            star: 4.8,
+            heart: 650,
             price: 20,
-            priceSale: 15,
+            priceSale: 15.00,
         },
         {
             id: 4,
             name: "Nike Air MX Super 5000 4",
             url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: "5",
+            star: 4.8,
+            heart: 650,
             price: 20,
             priceSale: 15,
         },
@@ -69,7 +73,8 @@ const Men = () => {
             id: 5,
             name: "Nike Air MX Super 5000 5",
             url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: "5",
+            star: 4.8,
+            heart: 650,
             price: 20,
             priceSale: 15,
         }
@@ -112,7 +117,7 @@ const Men = () => {
                                 <AiOutlineDownCircle className='w-6 h-6' />
                             </div>
                             {isOpenPrice &&
-                                <div className='absolute p-4 border border-text w-full mt-3 rounded-lg'>
+                                <div className='absolute p-4 border border-text w-full mt-3 rounded-lg z-10 bg-white'>
                                     <Slider
                                         range
                                         min={0}
@@ -138,7 +143,7 @@ const Men = () => {
                                 <AiOutlineDownCircle className='w-6 h-6' />
                             </div>
                             {isOpenSort && (
-                                <ul className="absolute left-0 mt-2 py-1 bg-white border border-gray-300 rounded-lg shadow w-full mt-3">
+                                <ul className="absolute left-0 mt-2 py-1 bg-white border border-gray-300 rounded-lg shadow w-full mt-3 z-20">
                                     {options.map((option) => (
                                         <li
                                             key={option}
@@ -158,6 +163,10 @@ const Men = () => {
                     {products.map((product) => (
                         <Product product={product} />
                     ))}
+                </div>
+
+                <div>
+
                 </div>
             </div>
         </div>
