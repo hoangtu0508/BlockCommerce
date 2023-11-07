@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Headder from '../component/Header/Headder'
 import { Outlet } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import ShoppingCart from '../component/ShoppingCart/ShoppingCart';
 
 const Layout = () => {
+    // const [showCart, setShowCart] = useState(true)
     return (
         <div className='bg-bg font-sans w-full m-auto'>
+            {/* {showCart && <ShoppingCart setShowCart={setShowCart} showCart={showCart} />} */}
             <Headder />
             <Outlet />
             <ToastContainer

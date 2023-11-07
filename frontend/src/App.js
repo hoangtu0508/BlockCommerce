@@ -8,6 +8,8 @@ import Register from './pages/Login/Register/Register';
 import Men from './pages/Collection/Men';
 import Women from './pages/Collection/Women';
 import ProductDetails from './component/ProductDetails/ProductDetails';
+import Shop from './pages/Shop/Shop';
+import Cart from './component/ShoppingCart/Cart';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
           <Route path='sign-up' element={<Register />} />
           <Route path='men' element={<Men />} />
           <Route path='women' element={<Women />} />
+          <Route path='shop' element={<Shop />} />
+          <Route path='blogs' element={<Cart />} />
           <Route path='product-details/:id' element={<ProductDetails />} />
         </Route>
       </Routes>

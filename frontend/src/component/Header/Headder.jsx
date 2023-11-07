@@ -10,20 +10,20 @@ import Button from '../Button/Button';
 import './Header.scss'
 import { toast } from 'react-toastify';
 import { FaEthereum } from 'react-icons/fa'
+import ShoppingCart from '../ShoppingCart/ShoppingCart';
 
 const Headder = () => {
-    // const balance = useSelector(state => state.metamask.balance);
-    // const walletAddress = useSelector(state => state.metamask.walletAddress);
+
     const walletInfo = useSelector(state => state.metamask.walletInfo)
     const walletAddress = walletInfo?.walletAddress;
     const balance = walletInfo?.balance;
-    // const balance = walletInfo.balance;
-    // const addressWallet = walletInfo.addressWallet;
+
     const { isSuccess } = useSelector(state => state.auth);
 
     const token = localStorage.getItem("token");
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [showCart, setShowCart] = useState(false)
     const dispatch = useDispatch()
 
     const handleMouseEnter = () => {
@@ -42,69 +42,70 @@ const Headder = () => {
     }
 
     return (
-        <div className='z-50 flex h-12 fixed justify-between w-full mt-6 px-32'>
-            <div className='w-1/5'>
-                <div className='rounded-3xl shadow-lg h-full w-12'>
-                    <GiLuckyFisherman className='rounded-3xl shadow-lg m-auto h-full bg-bg w-12 text-oranger' />
+        <>
+            <div className='z-50 flex h-12 fixed justify-between w-full mt-6 px-32'>
+                <div className='w-1/5'>
+                    <div className='rounded-3xl shadow-lg h-full w-12'>
+                        <GiLuckyFisherman className='rounded-3xl shadow-lg m-auto h-full bg-bg w-12 text-oranger' />
+                    </div>
                 </div>
-            </div>
-            <div
-                className="
+                <div
+                    className="
                 flex items-center justify-center text-center rounded-3xl shadow-lg px-5 bg-white text-sm font-semibold
                 w-1/4
             "
-            >
-                <ul className='flex flex-row w-full'>
-                    <li className='m-auto'><Link to='/'>Home</Link></li>
-                    <li className='m-auto'><Link>Shop</Link></li>
-                    <li className='m-auto'><Link>Blog</Link></li>
-                    <li className='m-auto'><Link>Abouts</Link></li>
-                    <li className='m-auto'>Category</li>
+                >
+                    <ul className='flex flex-row w-full'>
+                        <li className='m-auto'><Link to='/'>Home</Link></li>
+                        <li className='m-auto'><Link to='/shop'>Shop</Link></li>
+                        <li className='m-auto'><Link to='/blogs'>Blog</Link></li>
+                        <li className='m-auto'><Link>Abouts</Link></li>
+                        <li className='m-auto'>Category</li>
 
-                </ul>
-            </div>
+                    </ul>
+                </div>
 
-            <div className='w-1/5 '>
-                <div className="w-full py-1 flex items-center justify-center text-center text-sm font-semibold">
-                    <span className='m-auto'><FiSearch className='w-6 h-6 ' /></span>
-                    {
-                        walletAddress ? (
-                            <div className='rounded-3xl shadow-lg h-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5'>
-                                <div className='rounded-full shadow-lg m-auto h-full px-5 text-white w-full'>
-                                    <div className='flex items-center'>
-                                        <FaEthereum className='w-5 h-5 mr-2' />
-                                        <h3 className='text-base'>{balance.slice(0, 6)} ETH</h3>
-                                    </div>
-                                    <h4>{walletAddress.slice(0, 9) + '...' + walletAddress.slice(-5)}</h4>
-                                </div>
-                            </div>
-                        ) : (
-                            <div onClick={handleConnect} className='h-10 m-auto w-5/12'>
-                                <Button name='Connect' />
-                            </div>
-                        )
-                    }
-
-
-                    <div className='icon-dropdown m-auto' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span><CgProfile className='h-6 w-6 m-auto' />
+                <div className='w-1/5 '>
+                    <div className="w-full py-1 flex items-center justify-center text-center text-sm font-semibold">
+                        <span className='m-auto'><FiSearch className='w-6 h-6 ' /></span>
                         {
-                            isDropdownOpen && (
-                                <div className='m-auto'>
-                                    <div className="dropdown-content pt-9 bg-none">
-                                        <ul className='p-3'>
-                                            <li><Link to='sign-in'>Sign In</Link></li>
-                                            <li><Link to='sign-up'>Sign Up</Link></li>
-                                        </ul>
+                            walletAddress ? (
+                                <div className='rounded-3xl shadow-lg h-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5'>
+                                    <div className='rounded-full shadow-lg m-auto h-full px-5 text-white w-full'>
+                                        <div className='flex items-center'>
+                                            <FaEthereum className='w-5 h-5 mr-2' />
+                                            <h3 className='text-base'>{balance.slice(0, 6)} ETH</h3>
+                                        </div>
+                                        <h4>{walletAddress.slice(0, 9) + '...' + walletAddress.slice(-5)}</h4>
                                     </div>
+                                </div>
+                            ) : (
+                                <div onClick={handleConnect} className='h-10 m-auto w-5/12'>
+                                    <Button name='Connect' />
                                 </div>
                             )
                         }
 
-                    </span></div>
 
-                    <span className='m-auto'><AiOutlineShoppingCart className='h-6 w-6 m-auto' /></span>
+                        <div className='icon-dropdown m-auto' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span><CgProfile className='h-6 w-6 m-auto' />
+                            {
+                                isDropdownOpen && (
+                                    <div className='m-auto'>
+                                        <div className="dropdown-content pt-9 bg-none">
+                                            <ul className='p-3'>
+                                                <li><Link to='sign-in'>Sign In</Link></li>
+                                                <li><Link to='sign-up'>Sign Up</Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )
+                            }
 
-                    {/* {isLogin ? (
+                        </span></div>
+
+                        <span className='m-auto' onClick={() => setShowCart(true)}><AiOutlineShoppingCart className='h-6 w-6 m-auto' /></span>
+
+                        {/* {isLogin ? (
                             // if user is logged in, show profile button and dropdown menu
                             <li className='nav-right-btn'>
                                 <CgProfile className='icon-profile' onClick={handleClick} />
@@ -127,10 +128,14 @@ const Headder = () => {
                             </li>
                         )} */}
 
+                    </div>
+
                 </div>
 
             </div>
-        </div>
+            {showCart && <ShoppingCart setShowCart={setShowCart} showCart={showCart}/>}
+        </>
+
     )
 }
 
