@@ -11,7 +11,11 @@ module.exports = {
         'xam': '#4d6472',
         'itxam': '#7692a9',
         'banner': '#f2f2f2',
-        'text': '#666666'
+        'text': '#666666',
+        'blueColor': '#2563eb',
+        'redColor': '#ef4444',
+        'yellowColor': '#facc15',
+        'greenColor': '#22c55e',
       },
       screens: {
         xs: '480px',
