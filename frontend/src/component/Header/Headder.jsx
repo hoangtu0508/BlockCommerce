@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet } from '../../features/metamask/metamaskSlice';
 import { Link } from 'react-router-dom';
@@ -11,20 +11,26 @@ import './Header.scss'
 import { toast } from 'react-toastify';
 import { FaEthereum } from 'react-icons/fa'
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
+import { getCollections } from '../../features/collection/collectionSlice';
+import { getAllCategory } from '../../features/category/categorySlice';
 
 const Headder = () => {
-
-    const walletInfo = useSelector(state => state.metamask.walletInfo)
-    const walletAddress = walletInfo?.walletAddress;
-    const balance = walletInfo?.balance;
-
-    const { isSuccess } = useSelector(state => state.auth);
-
     const token = localStorage.getItem("token");
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [showCart, setShowCart] = useState(false)
+
     const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getCollections())
+        dispatch(getAllCategory())
+    }, [])
+
+    const walletInfo = useSelector(state => state.metamask.walletInfo)
+    const walletAddress = walletInfo?.walletAddress;
+    const balance = walletInfo?.balance;
+    const collections = useSelector(state => state?.collection?.collection?.data)
+    const categories = useSelector(state => state?.category?.category?.data)
 
     const handleMouseEnter = () => {
         setDropdownOpen(true);
@@ -33,6 +39,7 @@ const Headder = () => {
     const handleMouseLeave = () => {
         setDropdownOpen(false);
     };
+
     const handleConnect = () => {
         if (token) {
             dispatch(connectWallet())
@@ -60,10 +67,38 @@ const Headder = () => {
                         <li className='m-auto'><Link to='/shop'>Shop</Link></li>
                         <li className='m-auto'><Link to='/blogs'>Blog</Link></li>
                         <li className='m-auto'><Link>Abouts</Link></li>
-                        <li className='m-auto'>Category</li>
+                        <li className='m-auto relative group cursor-pointer inline-block'>
+                            Category
+                            <ul class="hidden group-hover:block z-50 absolute p-3 bg-white w-80 shadow-md rounded-lg grid grid-cols-2 gap-4 pt-4">
+                                <li class="py-2 border-l-4 border-transparent transition-all text-left px-2">
+                                    <h3 className='text-base pb-2 border-b border-text '>Category</h3>
+                                    <ul>
+                                        {categories?.map((category) => (
+                                            <li key={category.id} className='py-2 text-itxam hover:border-blue-500 duration-300 ease-in-out'>
+                                                <Link to={`/category/${category.id}`}>{category.attributes.categoryName}</Link>
+                                            </li>
+                                        ))
+
+                                        }
+                                    </ul>
+                                </li>
+                                <li class="py-2 border-l-4 border-transparent transition-all duration-300 ease-in-out text-left px-2">
+                                    <h3 className='pb-2 border-b border-text text-base'>Collection</h3>
+                                    <ul >
+                                        {collections?.map((collection) => (
+                                            <li key={collection.id} className='py-2 text-itxam hover:border-blue-500'>
+                                                <Link to={`/collection/${collection.id}`}>{collection.attributes.collectionName}</Link>
+                                            </li>
+                                        ))
+
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
 
                     </ul>
-                </div>
+                </div >
 
                 <div className='w-1/5 '>
                     <div className="w-full py-1 flex items-center justify-center text-center text-sm font-semibold">
@@ -132,8 +167,8 @@ const Headder = () => {
 
                 </div>
 
-            </div>
-            {showCart && <ShoppingCart setShowCart={setShowCart} showCart={showCart}/>}
+            </div >
+            {showCart && <ShoppingCart setShowCart={setShowCart} showCart={showCart} />}
         </>
 
     )

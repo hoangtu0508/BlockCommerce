@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineColorLens } from 'react-icons/md'
 import { LiaRulerHorizontalSolid, LiaShippingFastSolid } from 'react-icons/lia'
 import { TiTick } from 'react-icons/ti'
@@ -9,12 +9,45 @@ import Review from './Container/Review'
 import Shipping from './Container/Shipping'
 import Return from './Container/Return'
 import Button from '../Button/Button'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { decrement, getProductDetails, increment, resetQuantity } from '../../features/product/productSlice'
+import { baseURL, baseURLImg, params } from '../../utils/api'
+import { toast } from 'react-toastify'
+import { addCart } from '../../features/cart/cartSlice'
+import axios from 'axios'
 
 const ProductDetails = () => {
     const [activeComponent, setActiveComponent] = useState(1)
 
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("customer"));
+    const userId = user?.user.id
+
+    const { id } = useParams()
+    const dispatch = useDispatch()
+
+    const product = useSelector((state) => state?.product?.productDetails?.data[0])
+
+    console.log(product);
+    const quantity = useSelector((state) => state?.product[product?.id]?.quantity || 1);
+    console.log(quantity);
+
+    useEffect(() => {
+        dispatch(getProductDetails(id))
+    }, [id])
+
     const handleActiveComponent = (number) => {
         setActiveComponent(number)
+    }
+
+    const handleAddToCart = (userId, product, quantity) => {
+        if (token) {
+            dispatch(addCart({ userId, product, quantity }))
+            dispatch(resetQuantity({ productId: product.id }));
+        } else {
+            toast.info("Please log in to add products to cart!");
+        }
     }
     return (
         <div className='py-16'>
@@ -30,7 +63,7 @@ const ProductDetails = () => {
                                             </path>
                                         </svg>
                                     </a>
-                                    <img class="object-contain w-full lg:h-full" src="https://i.postimg.cc/0jwyVgqz/Microprocessor1-removebg-preview.png" alt="" />
+                                    <img class="object-contain w-full lg:h-full" src={baseURLImg + product?.attributes?.productImg?.data[0].attributes?.url} alt="" />
                                     <a class="absolute right-0 transform lg:mr-2 top-1/2 translate-1/2" href="#">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5 text-blue-500 bi bi-chevron-right dark:text-blue-200" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
@@ -68,7 +101,7 @@ const ProductDetails = () => {
                                     <span class="px-2.5 py-0.5 text-xs text-blue-600 bg-blue-100 dark:bg-gray-700 rounded-xl dark:text-gray-200">New
                                         Arrival</span>
                                     <h2 class="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
-                                        Intel® Core™ i5-12600HX Processor (18M Cache, up to 4.60 GHz)
+                                        {product?.attributes?.productName}
                                     </h2>
                                     <div class="flex flex-wrap items-center mb-6">
                                         <ul class="flex mb-4 mr-2 lg:mb-0">
@@ -110,7 +143,7 @@ const ProductDetails = () => {
                                         </a>
                                     </div>
                                     <p class="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
-                                        <span>Rs.7,000.00</span>
+                                        <span>{product?.attributes?.productPrice} USD</span>
                                         <span class="ml-3 text-base font-normal text-gray-500 line-through dark:text-gray-400">Rs.10,000.00</span>
                                     </p>
                                 </div>
@@ -169,12 +202,13 @@ const ProductDetails = () => {
                                         <div class="w-28">
                                             <div class="relative flex flex-row w-full h-10 bg-transparent rounded-lg">
                                                 <button class="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-300">
-                                                    <span class="m-auto text-2xl font-thin">-</span>
+                                                    <span class="m-auto text-2xl font-thin" onClick={() => dispatch(decrement({ productId: product.id }))}>-</span>
                                                 </button>
-                                                <input type="number" class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black" placeholder="1" />
+                                                <input type="number" class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black" placeholder={quantity} />
                                                 <button class="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-300">
-                                                    <span class="m-auto text-2xl font-thin">+</span>
+                                                    <span class="m-auto text-2xl font-thin" onClick={() => dispatch(increment({ productId: product.id }))}>+</span>
                                                 </button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -186,7 +220,7 @@ const ProductDetails = () => {
                                             </svg>
                                         </button>
                                     </div>
-                                    <div className='w-6/12 rounded-full shadow-lg h-12 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5'>
+                                    <div className='w-6/12 rounded-full shadow-lg h-12 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5' onClick={() => handleAddToCart(userId, product, quantity)}>
                                         <button className='rounded-full shadow-lg m-auto h-full hover:text-white hover:bg-transparent w-full bg-white text-text'>Add to cart</button>
                                     </div>
                                 </div>

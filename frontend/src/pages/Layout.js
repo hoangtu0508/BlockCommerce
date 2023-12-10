@@ -3,6 +3,8 @@ import Headder from '../component/Header/Headder'
 import { Outlet } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import ShoppingCart from '../component/ShoppingCart/ShoppingCart';
 
 const Layout = () => {

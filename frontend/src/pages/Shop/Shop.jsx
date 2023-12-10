@@ -1,16 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { AiOutlineDownCircle } from 'react-icons/ai';
 import Product from '../../component/Product/Product';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../features/product/productSlice';
+import { getCollections } from '../../features/collection/collectionSlice';
+import { getAllCategory } from '../../features/category/categorySlice';
 
 const Shop = () => {
     const [priceRange, setPriceRange] = useState([50, 300])
     const [isOpenPrice, setOpenPrice] = useState(false)
     const [isOpenSort, setOpenSort] = useState(false)
-
     const [selectedOption, setSelectedOption] = useState('');
+
+    const products = useSelector((state) => state?.product?.products?.data);
+    const collections = useSelector((state) => state?.collection?.collection?.data);
+    const categories = useSelector((state) => state?.category?.category?.data);
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getProduct())
+        dispatch(getCollections())
+        dispatch(getAllCategory())
+    }, [dispatch])
 
     const handlePriceRangeChange = (value) => {
         setPriceRange(value);
@@ -24,60 +38,11 @@ const Shop = () => {
         setOpenSort(!isOpenSort)
     }
 
-    const options = ['Volvo', 'Saab', 'Mercedes', 'Audi'];
-
     const selectOption = (option) => {
         setSelectedOption(option);
         setOpenSort(false);
     };
 
-    const products = [
-        {
-            id: 1,
-            name: "Nike Air MX Super 5000",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 5.0,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 2,
-            name: "Nike Air MX Super 5000 1",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 3,
-            name: "Nike Air MX Super 5000 3",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15.00,
-        },
-        {
-            id: 4,
-            name: "Nike Air MX Super 5000 4",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 5,
-            name: "Nike Air MX Super 5000 5",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        }
-    ]
     return (
         <div className='py-16 w-10/12 m-auto'>
             <div className='text-center mt-10'>
@@ -105,13 +70,13 @@ const Shop = () => {
                     </div>
                     {isOpenPrice &&
                         <ul className="absolute left-0 mt-2 py-1 bg-white border border-gray-300 rounded-lg shadow w-full mt-3 z-20">
-                            {options.map((option) => (
+                            {categories?.map((category) => (
                                 <li
-                                    key={option}
+                                    key={category.id}
                                     className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                    onClick={() => selectOption(option)}
+                                    onClick={() => selectOption(category.attributes.categoryName)}
                                 >
-                                    {option}
+                                    {category.attributes.categoryName}
                                 </li>
                             ))}
                         </ul>
@@ -130,13 +95,13 @@ const Shop = () => {
                     </div>
                     {isOpenSort && (
                         <ul className="absolute left-0 mt-2 py-1 bg-white border border-gray-300 rounded-lg shadow w-full mt-3 z-20">
-                            {options.map((option) => (
+                            {categories?.map((category) => (
                                 <li
-                                    key={option}
+                                    key={category.id}
                                     className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                    onClick={() => selectOption(option)}
+                                    onClick={() => selectOption(category.attributes.categoryName)}
                                 >
-                                    {option}
+                                    {category.attributes.categoryName}
                                 </li>
                             ))}
                         </ul>
@@ -152,13 +117,13 @@ const Shop = () => {
                         </div>
 
                         <ul className='mt-6'>
-                            {options.map((option) => (
+                            {categories?.map((category) => (
                                 <li
-                                    key={option}
+                                    key={category.id}
                                     className="p-3 px-6 cursor-pointer hover:bg-gray-100 bg-white my-2 rounded-xl text-sm font-medium"
-                                    onClick={() => selectOption(option)}
+                                    onClick={() => selectOption(category.attributes.categoryName)}
                                 >
-                                    {option}
+                                    {category.attributes.categoryName}
                                 </li>
                             ))}
                         </ul>
@@ -260,26 +225,26 @@ const Shop = () => {
                             <h3 className='text-lg font-medium '>Collection</h3>
                         </div>
                         <ul className='mt-4'>
-                            <li className="p-3 px-6 cursor-pointer hover:bg-gray-100 bg-white my-2 rounded-xl text-sm font-medium flex items-center">
-                                <input type='checkbox' className='w-5 h-5 mr-6'></input>
-                                <span>Men</span>
-                            </li>
-                            <li className="p-3 px-6 cursor-pointer hover:bg-gray-100 bg-white my-2 rounded-xl text-sm font-medium flex items-center">
-                                <input type='checkbox' className='w-5 h-5 mr-6'></input>
-                                <span>Women</span>
-                            </li>
+                            {collections?.map((collection) => (
+                                <li className="p-3 px-6 cursor-pointer hover:bg-gray-100 bg-white my-2 rounded-xl text-sm font-medium flex items-center">
+                                    <input type='checkbox' className='w-5 h-5 mr-6'></input>
+                                    <span>{collection.attributes.collectionName}</span>
+                                </li>
+                            ))}
+
+
                         </ul>
                     </div>
                 </div>
                 <div className='w-3/4'>
                     <div className='grid grid-cols-3 gap-12'>
-                    {
-                        products.map((product) => (
-                            <Product product={product} />
-                        ))
-                    }
+                        {
+                            products?.map((product) => (
+                                <Product product={product} />
+                            ))
+                        }
                     </div>
-                    
+
                 </div>
             </div>
         </div>

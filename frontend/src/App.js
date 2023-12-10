@@ -1,16 +1,15 @@
-
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './pages/Layout';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login/Login';
 import Register from './pages/Login/Register/Register';
-import Men from './pages/Collection/Men';
-import Women from './pages/Collection/Women';
 import ProductDetails from './component/ProductDetails/ProductDetails';
 import Shop from './pages/Shop/Shop';
 import Cart from './component/ShoppingCart/Cart';
 import Checkout from './component/Checkout/Checkout';
+import Collection from './pages/Collection/Collection';
+import CategoryPage from './pages/Collection/CategoryPage';
 
 function App() {
 
@@ -21,8 +20,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path='sign-in' element={<Login />} />
           <Route path='sign-up' element={<Register />} />
-          <Route path='men' element={<Men />} />
-          <Route path='women' element={<Women />} />
+          <Route path='collection/:id' element={<Collection />} />
+          <Route path='category/:id' element={<CategoryPage />} />
           <Route path='shop' element={<Shop />} />
           <Route path='cart' element={<Cart />} />
           <Route path='checkout' element={<Checkout />} />

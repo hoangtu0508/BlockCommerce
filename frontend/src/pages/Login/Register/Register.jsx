@@ -26,6 +26,8 @@ const Register = () => {
     }))
   }
 
+  console.log(user);
+
   return (
     <div className='py-16 w-10/12 m-auto'>
       <div className='w-8/12 m-auto mt-16'>

@@ -5,52 +5,28 @@ import { IoMdAdd, IoMdRemove } from 'react-icons/io'
 import Button from '../Button/Button'
 import banner from '../../img/banner-cart.avif'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { decrementProductCart, getProductCart, incrementProductCart, removeProductCart } from '../../features/cart/cartSlice'
+import { baseURLImg } from '../../utils/api'
+import { calculateTotalPrice } from '../../utils/utils'
 
 const ShoppingCart = (props) => {
     const mavigate = useNavigate()
+    const dispatch = useDispatch()
+    const user = JSON.parse(localStorage.getItem("customer"));
+    const userId = user?.user.id
 
-    const products = [
-        {
-            id: 1,
-            name: 'Polaroid camera',
-            price: 59.99,
-            priceSale: 59.99,
-            color: 'Blue',
-            size: 'M',
-            category: 'Classic',
-            url: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80'
-        },
-        {
-            id: 1,
-            name: 'Polaroid camera',
-            price: 59.99,
-            color: 'Blue',
-            size: 'M',
-            priceSale: 59.99,
-            category: 'Classic',
-            url: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80'
-        },
-        {
-            id: 1,
-            name: 'Polaroid camera',
-            price: 59.99,
-            color: 'Blue',
-            size: 'M',
-            priceSale: 59.99,
-            category: 'Classic',
-            url: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80'
-        },
-        {
-            id: 1,
-            name: 'Polaroid camera',
-            price: 59.99,
-            priceSale: 59.99,
-            color: 'Blue',
-            size: 'M',
-            category: 'Classic',
-            url: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&amp;ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80'
-        },
-    ]
+    const productCartState = useSelector((state) => state?.cart?.productCart?.data[0])
+    const productCart = productCartState?.attributes?.products
+    const cartId = productCartState?.id
+
+    useEffect(() => {
+        dispatch(getProductCart(userId))
+    }, [dispatch])
+
+    useEffect(() => {
+
+    }, [])
 
     const productsHot = [
         {
@@ -95,7 +71,8 @@ const ShoppingCart = (props) => {
         },
     ]
     const setShowCart = props.setShowCart
-    const showCart = props.showCart
+
+    const totalPrice = calculateTotalPrice(productCart);
 
     const handleViewCart = () => {
         setShowCart(false)
@@ -106,9 +83,25 @@ const ShoppingCart = (props) => {
         setShowCart(false)
         mavigate('/checkout')
     }
+
+    const handleRemoveProductCart = (indexId, productCart, cartId) => {
+        dispatch(removeProductCart({ indexId, productCart, cartId }))
+        dispatch(getProductCart(userId))
+    }
+
+    const handleincrementQuanity = (indexId, productCart, cartId) => {
+        dispatch(incrementProductCart({ indexId, productCart, cartId }))
+        dispatch(getProductCart(userId))
+    }
+
+    const handledecrementQuanity = (indexId, productCart, cartId) => {
+        dispatch(decrementProductCart({ indexId, productCart, cartId }))
+        dispatch(getProductCart(userId))
+    }
+
     return (
         <div className='fixed w-full h-screen bg-black z-50 bg-opacity-50'>
-            {products.length && (
+            {productCart?.length && (
                 <div className=' w-96 bg-white float-right h-screen px-8'>
                     <div className=' py-6'>
                         <div className="flex items-center justify-end">
@@ -125,16 +118,16 @@ const ShoppingCart = (props) => {
                     <div className='overflow-y-scroll h-1/2 w-full custom pr-2'>
                         <ul className="flex flex-col divide-y divide-gray-700 ">
                             {
-                                products.map((product) => (
+                                productCart?.map((product, index) => (
                                     <li className="py-6 sm:flex-row sm:justify-between">
                                         <div className="flex w-full space-x-2 sm:space-x-4">
                                             <div className='w-1/3'>
-                                                <img className="w-full flex-shrink-0 object-cover dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500" src={product.url} alt="Polaroid camera" />
+                                                <img className="w-full flex-shrink-0 object-cover dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500" src={baseURLImg + product?.product?.attributes?.productImg?.data[0].attributes?.url} alt="Polaroid camera" />
                                             </div>
                                             <div className="flex flex-col justify-between w-2/3 pb-4">
                                                 <div className="w-full pb-2">
                                                     <div className="space-y-1">
-                                                        <h3 className="text-base font-medium leadi sm:pr-8">{product.name}</h3>
+                                                        <h3 className="text-base font-medium leadi sm:pr-8">{product?.product?.attributes?.productName}</h3>
                                                     </div>
 
                                                     <div className='flex text-xs my-1'>
@@ -142,15 +135,15 @@ const ShoppingCart = (props) => {
                                                         <span>Size: {product.size}</span>
                                                     </div>
                                                     <div className="flex items-center">
-                                                        <p className="text-base font-semibold mr-3">{product.priceSale}$</p>
-                                                        <p className="text-sm line-through dark:text-gray-600">{product.price}$</p>
+                                                        <p className="text-base font-semibold mr-3">{product?.product?.attributes?.productPrice}$</p>
+                                                        <p className="text-sm line-through dark:text-gray-600">{product?.product?.attributes?.productPrice}$</p>
                                                     </div>
                                                     <div className='mt-2 flex items-center'>
                                                         <span><AiOutlineEdit /></span>
-                                                        <div className='flex items-center ml-3 border p-2'>
-                                                            <span><IoMdRemove /></span>
-                                                            <input type='number' className='w-14 text-center'></input>
-                                                            <span><IoMdAdd /></span>
+                                                        <div className='flex items-center ml-3 border'>
+                                                            <div className='p-2' onClick={() => handledecrementQuanity(index, productCart, cartId)}><IoMdRemove /></div>
+                                                            <div className='w-14 text-center p-2'>{product?.quantity}</div>
+                                                            <div className='p-2' onClick={() => handleincrementQuanity(index, productCart, cartId)}><IoMdAdd /></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -158,7 +151,9 @@ const ShoppingCart = (props) => {
                                             </div>
                                         </div>
                                         <div className="flex text-sm divide-x">
-                                            <button type="button" className="flex items-center px-2 py-1 pl-0 space-x-1">
+                                            <button type="button" className="flex items-center px-2 py-1 pl-0 space-x-1 hover:text-red-500"
+                                                onClick={() => handleRemoveProductCart(index, productCart, cartId)}
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current">
                                                     <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
                                                     <rect width="32" height="200" x="168" y="216"></rect>
@@ -186,7 +181,7 @@ const ShoppingCart = (props) => {
                         <div className="space-y-1 text-right my-6">
                             <div className='flex items-center justify-between'>
                                 <p className='font-medium'>Total amount:</p>
-                                <span className="font-semibold">357.00 $</span>
+                                <span className="font-semibold">{totalPrice}.00 $</span>
                             </div>
                             <p className="text-sm dark:text-gray-400 text-left">Taxes and shipping calculated at checkout</p>
                         </div>
@@ -210,7 +205,7 @@ const ShoppingCart = (props) => {
                 </div>
             )}
 
-            {!products.length && (
+            {!productCart?.length && (
                 <div className=' w-96 bg-white float-right h-screen'>
                     <div className=''>
                         <div className="z-10 fixed flex items-center p-6 right-0">

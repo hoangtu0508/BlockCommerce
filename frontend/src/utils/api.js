@@ -1,15 +1,24 @@
 
 export const baseURL = 'http://localhost:1337/api/';
 
-export const params = {
+export const baseURLImg = 'http://localhost:1337'
+
+export const config = {
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+    }
+};
+
+export const d = {
     mode: 'no-cors',
     headers: {
         Authorization: "Bearer " + process.env.REACT_APP_STRIPE_APP_KEY,
     },
 };
 
-export const fetchData = {
+export const params = {
     headers: {
-        Authorization: `bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
 }

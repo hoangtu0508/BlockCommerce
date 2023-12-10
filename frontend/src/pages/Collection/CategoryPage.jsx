@@ -1,17 +1,35 @@
-import React, { useState } from 'react'
-import men from '../../img/men.avif'
+import React, { useEffect, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { AiOutlineDownCircle } from 'react-icons/ai';
 import Product from '../../component/Product/Product';
+import { useDispatch, useSelector } from 'react-redux';
+import { baseURLImg } from '../../utils/api';
+import { useParams } from 'react-router-dom';
+import { getProductCategory } from '../../features/product/productSlice';
+import { getCategoryId } from '../../features/category/categorySlice';
 
-const Men = () => {
+const CategoryPage = () => {
     const [priceRange, setPriceRange] = useState([50, 300])
     const [isOpenPrice, setOpenPrice] = useState(false)
     const [isOpenSort, setOpenSort] = useState(false)
 
     const [selectedOption, setSelectedOption] = useState('');
+
+    const dispatch = useDispatch()
+    const { id } = useParams();
+
+    const categoryId = useSelector((state) => state?.category?.categoryId?.data[0])
+    const cateId = useSelector((state) => state?.product?.productCate?.data[0]);
+    const products = cateId?.attributes?.products?.data
+
+    console.log(categoryId);
+
+    useEffect(() => {
+        dispatch(getProductCategory(id))
+        dispatch(getCategoryId(id))
+    }, [id])
 
     const handlePriceRangeChange = (value) => {
         setPriceRange(value);
@@ -32,66 +50,18 @@ const Men = () => {
         setOpenSort(false);
     };
 
-    const products = [
-        {
-            id: 1,
-            name: "Nike Air MX Super 5000",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 5.0,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 2,
-            name: "Nike Air MX Super 5000 1",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 3,
-            name: "Nike Air MX Super 5000 3",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15.00,
-        },
-        {
-            id: 4,
-            name: "Nike Air MX Super 5000 4",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        },
-        {
-            id: 5,
-            name: "Nike Air MX Super 5000 5",
-            url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            star: 4.8,
-            heart: 650,
-            price: 20,
-            priceSale: 15,
-        }
-    ]
-
     return (
         <div className='pb-16'>
             <div className='flex justify-end items-center'>
                 <div className='w-6/12'>
                     <div className=''>
-                        <h1 className='text-6xl font-bold'>MEN'S COLLECTION</h1>
+                        <h1 className='text-6xl font-bold uppercase'>{categoryId?.attributes?.categoryName}'S CATEGORY</h1>
                         <h3 className='my-6 font-bold text-sm'>Suggestions</h3>
-                        <p className='w-3/5'>The menswear category is a collection of products and accessories specifically for men, helping you create your unique personal style and express yourself through apparel and accessories. This category includes a wide range of items from clothing, shoes, watches, handbags, jewelry, to personal care products and more.</p>
+                        <p className='w-3/5'>{categoryId?.attributes?.categoryDesc}</p>
                     </div>
                 </div>
                 <div className='w-5/12'>
-                    <img src={men} className='rounded-l-full'></img>
+                    <img src={baseURLImg + categoryId?.attributes?.categoryImg?.data[0]?.attributes?.url} className='rounded-l-full'></img>
                 </div>
             </div>
 
@@ -160,7 +130,7 @@ const Men = () => {
                 </div>
 
                 <div className='grid grid-cols-4 gap-12 mt-10'>
-                    {products.map((product) => (
+                    {products?.map((product) => (
                         <Product product={product} />
                     ))}
                 </div>
@@ -173,4 +143,4 @@ const Men = () => {
     )
 }
 
-export default Men
+export default CategoryPage

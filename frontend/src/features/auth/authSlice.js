@@ -77,8 +77,8 @@ const authSlice = createSlice({
                 state.isLogin = false
                 state.error = true
                 state.message = action.error
-                if (state.isError === true) {
-                    toast.error(action.payload.respone.data.message)
+                if (state.error === true) {
+                    toast.error(action?.payload?.respone?.data.message)
                 }
             })
     },

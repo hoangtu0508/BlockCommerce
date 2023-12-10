@@ -27,10 +27,25 @@
             a:hover {
                 background-image: linear-gradient(to right, #ff0000, #ec4899, #eab308);
                 color: white;
-                border-radius: 50px;                                  
- 
+                border-radius: 50px;
+
             }
         }
+
+    }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+    .dropdown-content {
+        position: absolute;
+        z-index: 999;
+        top: 0px;
+        left: 100%;
+        transform: translateX(-20%);
+        min-width: 150px;
 
     }
 }

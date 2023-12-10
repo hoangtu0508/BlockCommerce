@@ -1,9 +1,20 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import { baseURLImg } from '../../utils/api';
+import { calculateTotalPrice } from '../../utils/utils';
 
 const Checkout = () => {
+
+    const selectedProducts = useSelector(state => state?.cart?.selectedProduct);
+
+    const totalPrice = calculateTotalPrice(selectedProducts);
+
+    const shipping = 8
+
+    console.log(selectedProducts);
     return (
         <div className='pt-24'>
-            {/* <div class="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
+            <div class="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
                 <a href="#" class="text-2xl font-bold text-gray-800">sneekpeeks</a>
                 <div class="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
                     <div class="relative">
@@ -32,27 +43,36 @@ const Checkout = () => {
                         </ul>
                     </div>
                 </div>
-            </div> */}
+            </div>
             <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
                 <div class="px-4 pt-8">
                     <p class="text-xl font-medium">Order Summary</p>
                     <p class="text-gray-400">Check your items. And select a suitable shipping method.</p>
                     <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                        <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
-                            <div class="flex w-full flex-col px-4 py-4">
-                                <span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-                                <span class="float-right text-gray-400">42EU - 8.5US</span>
-                                <p class="text-lg font-bold">$138.99</p>
+                        {selectedProducts?.map((product) => (
+                            <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+                                <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src={baseURLImg + product?.product?.attributes?.productImg?.data[0].attributes?.url} alt="" />
+                                <div class="flex w-full flex-col px-4 py-4">
+                                    <span class="font-semibold">{product?.product?.attributes?.productName}</span>
+                                    <span class="float-right text-gray-400">42EU - 8.5US</span>
+                                    <p class="text-lg font-bold">${product?.product?.attributes?.productPrice}.00</p>
+                                </div>
+                            </div>
+                        ))}
+
+                        <div class="mt-6 border-t border-b py-2">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Subtotal</p>
+                                <p class="font-semibold text-gray-900">${totalPrice}.00</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Shipping</p>
+                                <p class="font-semibold text-gray-900">${shipping}.00</p>
                             </div>
                         </div>
-                        <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
-                            <div class="flex w-full flex-col px-4 py-4">
-                                <span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-                                <span class="float-right text-gray-400">42EU - 8.5US</span>
-                                <p class="mt-auto text-lg font-bold">$238.99</p>
-                            </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <p class="text-sm font-medium text-gray-900">Total</p>
+                            <p class="text-2xl font-semibold text-gray-900">${totalPrice + shipping}.00</p>
                         </div>
                     </div>
 
@@ -132,26 +152,13 @@ const Checkout = () => {
                             <input type="text" name="billing-zip" class="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" />
                         </div>
 
-                        <div class="mt-6 border-t border-b py-2">
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p class="font-semibold text-gray-900">$399.00</p>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-gray-900">Shipping</p>
-                                <p class="font-semibold text-gray-900">$8.00</p>
-                            </div>
-                        </div>
-                        <div class="mt-6 flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">$408.00</p>
-                        </div>
+
                     </div>
                     <button class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
                 </div>
             </div>
 
-           
+
 
         </div>
     )

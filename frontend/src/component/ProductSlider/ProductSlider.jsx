@@ -1,28 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Product from '../Product/Product'
 
-const ProductSlider = () => {
-    const category = [
-        {
-            id: 1,
-            name: 'Mũ Nam'
-        },
-        {
-            id: 2,
-            name: 'Mũ nữ'
-        },
+import Slider from "react-slick";
 
-    ]
+const ProductSlider = (props) => {
+
+    const products = props.products
+    console.log(products);
+
+    const settings = {
+        // dots: true,
+        infinite: true,
+        speed: 1000,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+    };
     return (
-        <div>ProductSlider
-            <div className='text-center'>
-                <ul>{
-                    category.map((cate) => (
-                        <li><Link>{cate.name}</Link></li>
-                    ))
-                }
-                </ul>
-            </div>
+        <div className=''>
+            <Slider {...settings}>
+                {products?.map((product) => (
+                    <div className='w-1/4 px-4' key={product.id}>
+                        <div className='h-full'>
+                            <Product product={product} />
+                        </div>
+                    </div>
+                ))}
+            </Slider>
         </div>
     )
 }
