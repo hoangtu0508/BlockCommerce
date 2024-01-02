@@ -5,12 +5,16 @@ import { GrSecure } from 'react-icons/gr'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../../features/auth/authSlice'
+import { getProductCart } from '../../../features/cart/cartSlice'
 
 const Login = () => {
-    const [user, setUser] = useState({ identifier: "", password: "" }) 
+    const [user, setUser] = useState({ identifier: "", password: "" })
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const userLocal = JSON.parse(localStorage.getItem("customer"));
+    const userId = userLocal?.user.id
 
     const handleClick = () => {
         navigate('/sign-up')

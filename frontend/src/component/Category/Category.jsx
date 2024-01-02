@@ -29,13 +29,13 @@ const Category = () => {
         <div className='py-10'>
             <div className='pt-6'>
                 <ul className='flex items-center justify-center'>
-                    {categoryState?.map((category) => (
+                    {categoryState?.map((brand) => (
                         <li
-                            key={category.id}
-                            className={`font-medium text-lg mx-3 py-1 ${activeComponent === category.id ? 'border-b border-text' : ''}`}
-                            onClick={() => hanldeClickCategory(category.id)}
+                            key={brand.id}
+                            className={`font-medium text-lg mx-3 py-1 ${activeComponent === brand.id ? 'border-b border-text' : ''}`}
+                            onClick={() => hanldeClickCategory(brand.id)}
                         >
-                            {category.attributes.categoryName}
+                            {brand.attributes.brandName}
                         </li>
                     ))
                     }

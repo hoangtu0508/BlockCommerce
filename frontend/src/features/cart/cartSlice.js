@@ -86,11 +86,25 @@ export const allSelected = createAsyncThunk(
     }
 )
 
+export const getShip = createAsyncThunk(
+    'cart/setship',
+    async (data, thunkAPI) => {
+        try {
+            const response = await cartService.getShipping(data);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+)
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         cart: null,
         productCart: null,
+        ship: null,
+        shipId: null,
         removeCart: null,
         selectedProduct: null,
         isSelected: null,
@@ -100,9 +114,18 @@ const cartSlice = createSlice({
         message: ''
     },
     reducers: {
-        setSelectedProducts: (state, action) => {
-            state.selectedProduct = action.payload;
+        setIdShip: (state, action) => {
+            state.shipId = action.payload
         },
+        // setShippingEth: (state, action) => {
+        //     state.shipEth = action.payload
+        // },
+        // setTotalPrice: (state, action) => {
+        //     state.totalPrice = action.payload
+        // },
+        // setTotalEth: (state, action) => {
+        //     state.totalEth = action.payload
+        // }
     },
     extraReducers: (builder) => {
         builder
@@ -227,9 +250,25 @@ const cartSlice = createSlice({
                 state.isError = false;
                 state.message = action.payload;
             })
+            .addCase(getShip.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(getShip.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccessCart = true;
+                state.isError = false;
+                state.ship = action.payload
+            })
+            .addCase(getShip.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccessCart = false;
+                state.isError = false;
+                state.message = action.payload;
+            })
 
     }
 })
 
-export const { setSelectedProducts } = cartSlice.actions
+export const { setIdShip} = cartSlice.actions
 export default cartSlice.reducer;

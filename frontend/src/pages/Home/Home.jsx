@@ -10,6 +10,7 @@ import Blogs from '../../component/Blogs/Blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCollectionId, getCollections } from '../../features/collection/collectionSlice'
 import { baseURLImg } from '../../utils/api'
+import { getPriceEth } from '../../features/currencyConverter/currencyConverterSlice'
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -18,6 +19,10 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(getCollections())
+    }, [])
+
+    useEffect(() => {
+        dispatch(getPriceEth())
     }, [])
 
     return (

@@ -25,8 +25,6 @@ const Collection = () => {
     const productCollection = useSelector((state) => state?.product?.productCollection?.data[0]);
     const product = productCollection?.attributes?.products?.data
 
-    console.log(product);
-
     useEffect(() => {
         dispatch(getCollectionId(id))
         dispatch(getProductCollection(id))
@@ -50,54 +48,6 @@ const Collection = () => {
         setSelectedOption(option);
         setOpenSort(false);
     };
-
-    // const products = [
-    //     {
-    //         id: 1,
-    //         name: "Nike Air MX Super 5000",
-    //         url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    //         star: 5.0,
-    //         heart: 650,
-    //         price: 20,
-    //         priceSale: 15,
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Nike Air MX Super 5000 1",
-    //         url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    //         star: 4.8,
-    //         heart: 650,
-    //         price: 20,
-    //         priceSale: 15,
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Nike Air MX Super 5000 3",
-    //         url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    //         star: 4.8,
-    //         heart: 650,
-    //         price: 20,
-    //         priceSale: 15.00,
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Nike Air MX Super 5000 4",
-    //         url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    //         star: 4.8,
-    //         heart: 650,
-    //         price: 20,
-    //         priceSale: 15,
-    //     },
-    //     {
-    //         id: 5,
-    //         name: "Nike Air MX Super 5000 5",
-    //         url: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    //         star: 4.8,
-    //         heart: 650,
-    //         price: 20,
-    //         priceSale: 15,
-    //     }
-    // ]
 
     return (
         <div className='pb-16'>

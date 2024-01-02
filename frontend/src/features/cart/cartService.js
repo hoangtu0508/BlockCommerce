@@ -155,6 +155,13 @@ const updateAllSelected = async ({productCart, cartId}) => {
     return null;
 };
 
+const getShipping = async () => {
+    const response = await axios.get(`${baseURL}shippings/?populate=*`, params)
+    if (response.data) {
+        return response.data
+    }
+}
+
 
 export const cartService = {
     addToCart,
@@ -164,4 +171,5 @@ export const cartService = {
     decrementQuantityCart,
     isSelectedCart,
     updateAllSelected,
+    getShipping,
 }

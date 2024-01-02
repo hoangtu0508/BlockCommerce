@@ -21,7 +21,15 @@ const login = async (userData) => {
     }
 }
 
+const getUser = async (userData) => {
+    const response = await axios.get(`${baseURL}users/?populate=*&[filters][id]=${userData}`, params)
+    if (response.data) {
+        return response.data
+    }
+}
+
 export const authService = {
     register,
     login,
+    getUser,
 }

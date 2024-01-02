@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineEye, AiTwotoneHeart, AiTwotoneStar } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { IoMdAdd } from 'react-icons/io'
+import { IoMdAdd, IoMdClock } from 'react-icons/io'
 import { HiOutlineMinusSm } from 'react-icons/hi'
 import Button from '../Button/Button'
 import { baseURLImg } from '../../utils/api'
@@ -9,15 +9,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { decrement, increment, resetQuantity } from '../../features/product/productSlice'
 import { addCart } from '../../features/cart/cartSlice'
 import { toast } from 'react-toastify'
+import { converEth } from '../../utils/utils'
+import { FaEthereum } from 'react-icons/fa'
+import { CiRuler } from "react-icons/ci";
 
 const Product = (props) => {
+    const [priceEth, setPriceEth] = useState(null)
+
     const product = props.product
+
+    console.log(product);
+    const price = product?.attributes?.productPrice
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("customer"));
     const userId = user?.user.id
 
     const dispatch = useDispatch();
     const quantity = useSelector((state) => state.product[product.id]?.quantity || 1);
+    const ethPrice = useSelector((state) => state?.currency?.ethPrice)
+
+    useEffect(() => {
+        if (price) {
+            setPriceEth(converEth(ethPrice, price))
+        }
+    }, [price, ethPrice])
 
     const handleAddToCart = (userId, product, quantity) => {
         if (token) {
@@ -27,6 +42,8 @@ const Product = (props) => {
             toast.info("Please log in to add products to cart!");
         }
     }
+
+    console.log(product);
 
     return (
         <div>
@@ -67,44 +84,23 @@ const Product = (props) => {
                                             </div>
                                         </div>
                                         <div className='flex items-end'>
-                                            <span className="text-xl text-text font-semibold mt-1">${product?.attributes?.productPrice}.00</span>
-                                            <span className='text-gray-400 ml-3'><strike>{product.price}.00</strike></span>
+                                            <span className="text-xl text-text font-semibold mt-1">${product?.attributes?.productPrice}.00 USD</span>
+                                            <div className='flex items-center'>
+                                                <span className='text-gray-400 ml-3'><FaEthereum className='text-amber-600' /></span>
+                                                <span>{priceEth?.toFixed(4)} ETH</span>
+                                            </div>
+
                                         </div>
                                         <div className="lg:flex  py-4  text-sm text-gray-600">
                                             <div className="w-1/2 inline-flex items-center mb-3 mr-1">
                                                 <div className="w-full flex-none text-sm flex items-center text-gray-600">
-                                                    <ul className="flex flex-row justify-center items-center space-x-2">
-                                                        <li className="">
-                                                            <span className="block p-1 border-2 hover:border-blue-600 rounded-full transition ease-in duration-300">
-                                                                <a href="#blue" className="block w-3 h-3 bg-blue-600 rounded-full"></a>
-                                                            </span>
-                                                        </li>
-                                                        <li className="">
-                                                            <span className="block p-1 border-2 hover:border-yellow-400 rounded-full transition ease-in duration-300">
-                                                                <a href="#yellow" className="block w-3 h-3  bg-yellow-400 rounded-full"></a>
-                                                            </span>
-                                                        </li>
-                                                        <li className="">
-                                                            <span className="block p-1 border-2 hover:border-red-500 rounded-full transition ease-in duration-300">
-                                                                <a href="#red" className="block w-3 h-3  bg-red-500 rounded-full"></a>
-                                                            </span>
-                                                        </li>
-                                                        <li className="">
-                                                            <span className="block p-1 border-2 hover:border-green-500 rounded-full transition ease-in duration-300">
-                                                                <a href="#green" className="block w-3 h-3  bg-green-500 rounded-full"></a>
-                                                            </span>
-                                                        </li>
-                                                    </ul>
+                                                    <IoMdClock className='w-5 h-auto' />
+                                                    <span className='ml-4'>{product?.attributes?.category?.data?.attributes?.categoryName}</span>
                                                 </div>
                                             </div>
                                             <div className="w-1/2 inline-flex items-center mb-3 ml-1">
-                                                <span className="text-secondary whitespace-nowrap mr-1">Size:</span>
-                                                <div className="cursor-pointer text-gray-400 ">
-                                                    <span className="hover:text-purple-500 p-1 py-0">S</span>
-                                                    <span className="hover:text-purple-500 p-1 py-0">M</span>
-                                                    <span className="hover:text-purple-500 p-1 py-0">L</span>
-                                                    <span className="hover:text-purple-500 p-1 py-0">XL</span>
-                                                </div>
+                                                <CiRuler className='w-5 h-auto' />
+                                                <span className='ml-4'>{product?.attributes?.productDiameter} mm</span>
                                             </div>
                                         </div>
 

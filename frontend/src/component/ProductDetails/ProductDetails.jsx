@@ -71,7 +71,7 @@ const ProductDetails = () => {
                                         </svg>
                                     </a>
                                 </div>
-                                <div class="flex-wrap hidden -mx-2 md:flex">
+                                {/* <div class="flex-wrap hidden -mx-2 md:flex">
                                     <div class="w-1/2 p-2 sm:w-1/4">
                                         <a class="block border border-gray-200 hover:border-blue-400 dark:border-gray-700 dark:hover:border-blue-300" href="#">
                                             <img class="object-contain w-full lg:h-28" src="https://i.postimg.cc/Z5KhRkD6/download-1-removebg-preview.png" alt="" />
@@ -92,7 +92,7 @@ const ProductDetails = () => {
                                             <img class="object-contain w-full lg:h-28" src="https://i.postimg.cc/0N4Kk1PN/black-microprocessors-removebg-preview.png" alt="" />
                                         </a>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div class="w-full px-4 md:w-1/2">
@@ -151,7 +151,7 @@ const ProductDetails = () => {
                                     <div class="bg-gray-200 dark:bg-gray-700 rounded-xl">
                                         <div class="p-3 lg:p-5 ">
                                             <div class="flex p-2 rounded-xl lg:p-6 dark:bg-gray-800 bg-gray-50">
-                                                <div className='w-1/2'>
+                                                {/* <div className='w-1/2'>
                                                     <div className='flex items-center'>
                                                         <span className='mr-3'><MdOutlineColorLens /></span>
                                                         <h3>COLOR: <span className='font-medium'>BLUE</span></h3>
@@ -178,8 +178,8 @@ const ProductDetails = () => {
                                                             </span>
                                                         </li>
                                                     </ul>
-                                                </div>
-                                                <div className='w-1/2'>
+                                                </div> */}
+                                                {/* <div className='w-1/2'>
                                                     <div className='flex items-center pl-3'>
                                                         <span className='mr-3'><LiaRulerHorizontalSolid /></span>
                                                         <h3>SIZE:</h3>
@@ -190,7 +190,7 @@ const ProductDetails = () => {
                                                         <span className="border hover:border-text hover:text-text p-1 py-0 px-2 text-center rounded-lg">L</span>
                                                         <span className="border hover:border-text hover:text-text p-1 py-0 px-2 text-center rounded-lg">XL</span>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../features/product/productSlice';
 import { getCollections } from '../../features/collection/collectionSlice';
 import { getAllCategory } from '../../features/category/categorySlice';
+import { getPriceEth } from '../../features/currencyConverter/currencyConverterSlice';
 
 const Shop = () => {
     const [priceRange, setPriceRange] = useState([50, 300])
@@ -20,11 +21,17 @@ const Shop = () => {
     const categories = useSelector((state) => state?.category?.category?.data);
     const dispatch = useDispatch()
 
+    console.log(products);
+
     useEffect(() => {
         dispatch(getProduct())
         dispatch(getCollections())
         dispatch(getAllCategory())
     }, [dispatch])
+
+    useEffect(() => {
+        dispatch(getPriceEth())
+    }, [])
 
     const handlePriceRangeChange = (value) => {
         setPriceRange(value);
@@ -121,9 +128,9 @@ const Shop = () => {
                                 <li
                                     key={category.id}
                                     className="p-3 px-6 cursor-pointer hover:bg-gray-100 bg-white my-2 rounded-xl text-sm font-medium"
-                                    onClick={() => selectOption(category.attributes.categoryName)}
+                                    onClick={() => selectOption(category.attributes.brandName)}
                                 >
-                                    {category.attributes.categoryName}
+                                    {category.attributes.brandName}
                                 </li>
                             ))}
                         </ul>

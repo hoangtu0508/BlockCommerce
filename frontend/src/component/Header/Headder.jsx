@@ -13,6 +13,9 @@ import { FaEthereum } from 'react-icons/fa'
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
 import { getCollections } from '../../features/collection/collectionSlice';
 import { getAllCategory } from '../../features/category/categorySlice';
+import { FaCartShopping } from 'react-icons/fa6';
+import { MdOutlineEventNote } from 'react-icons/md';
+import { IoLogInOutline } from 'react-icons/io5';
 
 const Headder = () => {
     const token = localStorage.getItem("token");
@@ -75,7 +78,7 @@ const Headder = () => {
                                     <ul>
                                         {categories?.map((category) => (
                                             <li key={category.id} className='py-2 text-itxam hover:border-blue-500 duration-300 ease-in-out'>
-                                                <Link to={`/category/${category.id}`}>{category.attributes.categoryName}</Link>
+                                                <Link to={`/category/${category.id}`}>{category?.attributes?.brandName}</Link>
                                             </li>
                                         ))
 
@@ -120,23 +123,81 @@ const Headder = () => {
                                 </div>
                             )
                         }
+                        {token ? (
+                            <div className='icon-dropdown m-auto' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                <span><CgProfile className='h-6 w-6 m-auto' />
+                                    {
+                                        isDropdownOpen && (
+                                            <div className='m-auto'>
+                                                <div className="dropdown-content pt-9 bg-none">
+                                                    <div className="shadow-md bg-gray-100 rounded-lg p-4 w-56">
+                                                        <div className='flex items-center border-b pb-4 border-text'>
+                                                            <div >
+                                                                <img src='http://localhost:1337/uploads/t1398072203800_1676370170_jpg_6950632396.webp' className='w-10 h-10 rounded-full'></img>
+                                                            </div>
+                                                            <div className='text-left ml-4'>
+                                                                <h3 className='font-bold text-base'>THT</h3>
+                                                                <h3 className='text-xs'>THT@gmail.com</h3>
+                                                            </div>
+                                                        </div>
+                                                        <div className='text-gray-600 py-2 border-b border-text'>
+                                                            <Link to='/user/profile'>
+                                                                <div className='flex items-center py-2'>
+                                                                    <span><CgProfile className='w-5 h-auto mr-4' /></span>
+                                                                    <h3>My profile</h3>
+                                                                </div>
+                                                            </Link>
+                                                            <Link to='/cart/your-cart'>
+                                                                <div className='flex items-center py-2'>
+                                                                    <span><FaCartShopping className='w-5 h-auto mr-4' /></span>
+                                                                    <h3>Shopping cart</h3>
+                                                                </div>
+                                                            </Link>
+                                                            <Link to='/user/order'>
+                                                                <div className='flex items-center py-2'>
+                                                                    <span><MdOutlineEventNote className='w-5 h-auto mr-4' /></span>
+                                                                    <h3>Purchase order</h3>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
 
+                                                        <div className='mt-2 text-gray-600'>
+                                                            <Link>
+                                                                <div className='flex items-center py-2'>
+                                                                    <span><IoLogInOutline className='w-5 h-auto mr-4' /></span>
+                                                                    <h3>Log out</h3>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                        {/* <ul className='p-3'>
+                                                            <li><Link to='sign-in'>Sign In</Link></li>
+                                                            <li><Link to='sign-up'>Sign Up</Link></li>
+                                                        </ul> */}
+                                                    </div>
 
-                        <div className='icon-dropdown m-auto' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span><CgProfile className='h-6 w-6 m-auto' />
-                            {
-                                isDropdownOpen && (
-                                    <div className='m-auto'>
-                                        <div className="dropdown-content pt-9 bg-none">
-                                            <ul className='p-3'>
-                                                <li><Link to='sign-in'>Sign In</Link></li>
-                                                <li><Link to='sign-up'>Sign Up</Link></li>
-                                            </ul>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+
+                                </span></div>
+                        ) : (
+                            <div className='icon-dropdown m-auto' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span><CgProfile className='h-6 w-6 m-auto' />
+                                {
+                                    isDropdownOpen && (
+                                        <div className='m-auto'>
+                                            <div className="dropdown-content pt-9 bg-none">
+                                                <ul className='p-3'>
+                                                    <li><Link to='sign-in'>Sign In</Link></li>
+                                                    <li><Link to='sign-up'>Sign Up</Link></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                )
-                            }
+                                    )
+                                }
 
-                        </span></div>
+                            </span></div>
+                        )}
 
                         <span className='m-auto' onClick={() => setShowCart(true)}><AiOutlineShoppingCart className='h-6 w-6 m-auto' /></span>
 
@@ -162,6 +223,7 @@ const Headder = () => {
                                 )}
                             </li>
                         )} */}
+
 
                     </div>
 
