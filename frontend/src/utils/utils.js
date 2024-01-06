@@ -48,7 +48,8 @@ export const sendTransaction = async (total) => {
     const paymentAddress = '0xF60c400d364a5FE7f543d66c8375cbc8202BF5E6';
     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     const senderAddress = accounts[0];
-    const Wei = 1000000000000000000
+    const Wei = 1e18;
+    
     const params = [
         {
             from: senderAddress,
@@ -58,11 +59,14 @@ export const sendTransaction = async (total) => {
         }
     ]
 
-    let relsult = await window.ethereum.request({ method: 'eth_sendTransaction', params }).catch((err) => {
-        console.log(err);
-    })
+    try {
+        const result = await window.ethereum.request({ method: 'eth_sendTransaction', params });
+        console.log('Transaction Successful:', result);
+        return result
+    } catch (error) {
+        console.error('Transaction Error:', error);
+    }
 }
-
 
 export const handleConnectWallet = async () => {
     try {
@@ -90,4 +94,8 @@ export const handleConnectWallet = async () => {
         // Xử lý lỗi kết nối
     }
 };
+
+export const updateCart = (arr) => {
+    return arr.filter(item => !item.isSelected);
+}
 

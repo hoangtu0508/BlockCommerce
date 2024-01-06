@@ -12,10 +12,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from '../../../features/auth/authSlice'
 import { FaEthereum } from "react-icons/fa";
 import Button from '../../../component/Button/Button'
-import { calculateTotalPrice, converEth, getSelectedProducts, sendTransaction } from '../../../utils/utils'
+import { calculateTotalPrice, converEth, getSelectedProducts, sendTransaction, updateCart } from '../../../utils/utils'
 import { getPriceEth } from '../../../features/currencyConverter/currencyConverterSlice'
-import { getProductCart, getShip } from '../../../features/cart/cartSlice'
+import { getProductCart, getShip, updateCartOrder } from '../../../features/cart/cartSlice'
 import { addOrderUser } from '../../../features/order/orderSlice'
+import { useNavigate } from 'react-router-dom'
+import PaginatedList from '../../../component/PaginatedList/PaginatedList'
 
 const Payment = () => {
     const [active, setActive] = useState(1)
@@ -25,19 +27,20 @@ const Payment = () => {
     const [userDate, setUserData] = useState({ name: "", phone: "" })
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const user = JSON.parse(localStorage.getItem("customer"));
     const userId = user?.user.id
 
     const address = useSelector((state) => state?.address?.addressDelivery)
-    const userData = useSelector((state) => state?.auth?.dataUser)
+    const userDataState = useSelector((state) => state?.auth?.dataUser)
     const shipId = useSelector((state) => state?.cart?.shipId)
     const shipState = useSelector((state) => state?.cart?.ship?.data)
     const ethPrice = useSelector((state) => state?.currency?.ethPrice)
 
     const productCartState = useSelector((state) => state?.cart?.productCart?.data[0])
     const productCart = productCartState?.attributes?.products
-
+    const cartId = productCartState?.id
 
     const total = shipEth + subtotalEth
 
@@ -62,13 +65,13 @@ const Payment = () => {
     }, [subtotal, ethPrice])
 
     useEffect(() => {
-        if (userData && userData.length > 0) {
+        if (userDataState && userDataState.length > 0) {
             setUserData(prevUserData => ({
-                name: userData[0]?.username,
-                phone: userData[0]?.phone
+                name: userDataState[0]?.username,
+                phone: userDataState[0]?.phone
             }));
         }
-    }, [userData])
+    }, [userDataState])
 
     useEffect(() => {
         dispatch(getPriceEth())
@@ -92,9 +95,33 @@ const Payment = () => {
         }))
     }
 
-    const handlePaymentCoinCash = async () => {
-         dispatch(addOrderUser({ userId, shipId, totalAll, address, productCart, userDate,  active }))
+    const handleupdateCartOrder = () => {
+        const data = updateCart(productCart)
+        dispatch(updateCartOrder({ data, cartId }))
+        console.log(data);
     }
+
+    const handlePaymentCoinCash = async () => {
+        await dispatch(addOrderUser({ userId, shipId, totalAll, address, productPayment, userDataState, active }))
+        await handleupdateCartOrder()
+        navigate('/user/order')
+    }
+
+    const handlePaymentMetamask = async () => {
+        try {
+            const transactionHash = await sendTransaction(total);
+            setActive()
+            console.log(transactionHash);
+            if (transactionHash) {
+                await dispatch(addOrderUser({ userId, shipId, totalAll, address, productPayment, userDataState, active }));
+                await handleupdateCartOrder();
+                navigate('/user/order');
+            }
+        } catch (error) {
+            console.error('Error during payment:', error);
+        }
+    };
+
 
     return (
         <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
@@ -215,7 +242,7 @@ const Payment = () => {
                         <div className='mt-4 h-12' onClick={() => handlePaymentCoinCash()}>
                             <Button name='Place Order' /></div>
                     )}
-                    {active === 3 && (<div className='mt-4 h-12' onClick={() => sendTransaction()}>
+                    {active === 3 && (<div className='mt-4 h-12' onClick={() => handlePaymentMetamask()}>
                         <Button name='Place Order' />
                     </div>)}
                 </div>

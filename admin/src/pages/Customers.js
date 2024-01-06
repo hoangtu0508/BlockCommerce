@@ -12,6 +12,7 @@ import {
 import UsersTable from "../components/UsersTable";
 
 const Customers = () => {
+  
   return (
     <div>
       <PageTitle>Manage Customers</PageTitle>

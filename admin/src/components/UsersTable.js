@@ -12,14 +12,21 @@ import {
   Pagination,
 } from "@windmill/react-ui";
 import response from "../utils/demo/usersData";
+import { useContext } from "react";
+import { Context } from "../utils/AppContext";
+import { baseURLImg } from "../utils/utils";
 
 const UsersTable = ({ resultsPerPage, filter }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
 
-  // pagination setup
-  const totalResults = response.length;
+  const { customers, getCustomers } = useContext(Context)
+  const totalResults = customers?.length;
+  useEffect(() => {
+    getCustomers()
+  }, [])
 
+  console.log(customers);
   // pagination change control
   function onPageChange(p) {
     setPage(p);
@@ -28,7 +35,7 @@ const UsersTable = ({ resultsPerPage, filter }) => {
   // on page change, load new sliced data
   // here you would make another server request for new data
   useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage));
+    setData(customers?.slice((page - 1) * resultsPerPage, page * resultsPerPage));
   }, [page, resultsPerPage, filter]);
 
   return (
@@ -38,29 +45,29 @@ const UsersTable = ({ resultsPerPage, filter }) => {
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
+              <TableCell>Full Name</TableCell>
+              <TableCell>Phone Number</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Joined on</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {data.map((user, i) => (
+            {customers?.map((user, i) => (
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
                     <Avatar
                       className="hidden mr-3 md:block"
-                      src={user.avatar}
+                      src={baseURLImg + user?.avatar[0]?.url}
                       alt="User image"
                     />
                     <div>
-                      <p className="font-semibold">{user.first_name}</p>
+                      <p className="font-semibold">{user.username}</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{user.last_name}</span>
+                  <span className="text-sm">{user.phone}</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm">{user.email}</span>
@@ -68,7 +75,7 @@ const UsersTable = ({ resultsPerPage, filter }) => {
 
                 <TableCell>
                   <span className="text-sm">
-                    {new Date(user.joined_on).toLocaleDateString()}
+                    {new Date(user.createdAt).toLocaleDateString()}
                   </span>
                 </TableCell>
               </TableRow>

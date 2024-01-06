@@ -15,14 +15,22 @@ import { CiRuler } from "react-icons/ci";
 
 const Product = (props) => {
     const [priceEth, setPriceEth] = useState(null)
+    const [token, setToken] = useState(null)
+    const [userId, setUserId] = useState(null)
 
     const product = props.product
 
     console.log(product);
     const price = product?.attributes?.productPrice
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("customer"));
-    const userId = user?.user.id
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        setToken(token)
+        const user = JSON.parse(localStorage.getItem("customer"));
+        const userId = user?.user.id
+        setUserId(userId)
+    }, [])
+
+    console.log(userId);
 
     const dispatch = useDispatch();
     const quantity = useSelector((state) => state.product[product.id]?.quantity || 1);

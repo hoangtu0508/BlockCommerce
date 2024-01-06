@@ -4,12 +4,20 @@ import { FaCartShopping } from 'react-icons/fa6'
 import { IoMdSettings } from 'react-icons/io'
 import { IoLogInOutline } from 'react-icons/io5'
 import { MdOutlineEventNote } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const SideBar = () => {
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        await localStorage.clear()
+        await navigate('/');
+        toast.success("Logout Success");
+    }
     return (
-        <div className=' h-screen pt-20'>
-            <div className='bg-white rounded-xl px-6 h-full flex flex-col pb-4'>
+        <div className='pt-20 h-full'>
+            <div className='rounded-xl px-6 h-full flex flex-col pb-4'>
                 <div className='flex items-center py-4 border-b border-text'>
                     <div>
                         <img src='http://localhost:1337/uploads/t1398072203800_1676370170_jpg_6950632396.webp' className='w-16 h-16 rounded-full'></img>
@@ -50,7 +58,7 @@ const SideBar = () => {
                         </div>
                     </Link>
                     <Link>
-                        <div className='flex items-center py-2'>
+                        <div className='flex items-center py-2' onClick={() => handleLogout()}>
                             <span><IoLogInOutline className='w-5 h-auto mr-4' /></span>
                             <h3>Log out</h3>
                         </div>

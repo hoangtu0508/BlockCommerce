@@ -12,8 +12,6 @@ import { getPriceEth } from '../../../features/currencyConverter/currencyConvert
 const YourCart = () => {
     const [total, setTotal] = useState()
 
-    console.log(total);
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = JSON.parse(localStorage.getItem("customer"));
@@ -26,8 +24,6 @@ const YourCart = () => {
 
     const productPayment = getSelectedProducts(productCart)
     const totalPrice = calculateTotalPrice(productPayment);
-
-    console.log(ethPrice);
 
     useEffect(() => {
         dispatch(getProductCart(userId))

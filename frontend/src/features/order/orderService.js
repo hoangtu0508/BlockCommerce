@@ -1,7 +1,7 @@
 import axios from "axios"
 import { baseURL, params } from "../../utils/api"
 
-const addOrder = async ({ userId, shipId, totalAll, address, productCart, userDate, active }) => {
+const addOrder = async ({ userId, shipId, totalAll, address, productPayment, userDataState, active }) => {
     const response = await axios.post(`${baseURL}orders/?populate=*`, {
         data: {
             userId: userId,
@@ -9,8 +9,8 @@ const addOrder = async ({ userId, shipId, totalAll, address, productCart, userDa
             status: Number(1),
             totalPrice: totalAll,
             deliveryAddress: address,
-            products: productCart,
-            userDetail: userDate,
+            products: productPayment,
+            userDetail: userDataState,
             payment: active,
         }
     }, params)
@@ -20,6 +20,22 @@ const addOrder = async ({ userId, shipId, totalAll, address, productCart, userDa
 
 }
 
+const getOrder = async (userId) => {
+    const response = await axios.get(`${baseURL}orders/?populate=*&[filters][userId]=${userId}`, params)
+    if (response.data) {
+        return response.data
+    }
+}
+
+const getOrderId = async (id) => {
+    const response = await axios.get(`${baseURL}orders/?populate=*&[filters][id]=${id}`, params)
+    if (response.data) {
+        return response.data
+    }
+}
+
 export const orderService = {
     addOrder,
+    getOrder,
+    getOrderId,
 }

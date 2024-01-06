@@ -98,6 +98,18 @@ export const getShip = createAsyncThunk(
     }
 )
 
+export const updateCartOrder = createAsyncThunk(
+    'cart/update-cart',
+    async (data, thunkAPI) => {
+        try {
+            const response = await cartService.updateCart(data);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+)
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
@@ -261,6 +273,21 @@ const cartSlice = createSlice({
                 state.ship = action.payload
             })
             .addCase(getShip.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccessCart = false;
+                state.isError = false;
+                state.message = action.payload;
+            })
+            .addCase(updateCartOrder.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(updateCartOrder.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccessCart = true;
+                state.isError = false;
+            })
+            .addCase(updateCartOrder.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isSuccessCart = false;
                 state.isError = false;

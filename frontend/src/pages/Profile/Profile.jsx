@@ -7,13 +7,17 @@ import { IoNotifications } from 'react-icons/io5'
 const Profile = () => {
   return (
     <div className='flex w-10/12 m-auto'>
-      <div className='w-1/4'>
+      
+      <div className='w-1/4 h-full mr-2'>
         <SideBar />
       </div>
-      <div className='w-3/4 ml-4 pt-20'>
+
+      <div className='w-3/4 h-full mt-20 ml-2'>
         <Outlet />
       </div>
     </div>
+
+
   )
 }
 

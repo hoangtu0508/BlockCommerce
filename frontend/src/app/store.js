@@ -8,6 +8,7 @@ import cartReducer from '../features/cart/cartSlice'
 import addressReducer from '../features/address/addressSlice'
 import currencyConverterReducer from '../features/currencyConverter/currencyConverterSlice';
 import orderReducer from '../features/order/orderSlice'
+import reviewReducer from '../features/review/reviewSlice'
 
 export const store = configureStore({
     reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
         address: addressReducer,
         currency: currencyConverterReducer,
         order: orderReducer,
+        review: reviewReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

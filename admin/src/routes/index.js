@@ -22,6 +22,7 @@ const AddBrand = lazy(() => import("../pages/AddBrand"));
 const EditBrand = lazy(() => import("../pages/EditBrand"));
 const AddCollection = lazy(() => import("../pages/AddCollection"));
 const EditCollection = lazy(() => import("../pages/EditCollection"));
+const OrderDetail = lazy(() => import("../pages/OrderDetail"));
 /**
  * ⚠ These are internal routes!
  * They will be rendered inside the app, using the default `containers/Layout`.
@@ -116,6 +117,10 @@ const routes = [
   {
     path: "/blank",
     component: Blank,
+  },
+  {
+    path: "/order/:id",
+    component: OrderDetail,
   },
 ];
 

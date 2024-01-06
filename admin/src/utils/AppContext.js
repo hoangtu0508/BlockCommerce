@@ -18,6 +18,13 @@ const AppContext = ({ children }) => {
     const [categories, setCategories] = useState()
     const [categoryId, setCategoryId] = useState()
 
+    const [orders, setOrders] = useState()
+    const [orderId, setOrderId] = useState()
+
+    const [customers, setCustomers] = useState()
+
+    const [status, setStatus] = useState()
+
     // CRUD Product Admin
 
     const getAllProduct = async () => {
@@ -396,6 +403,60 @@ const AppContext = ({ children }) => {
 
     }
 
+    // ORDER
+
+    const getOrder = async () => {
+        const response = await axios.get(`${baseURL}orders?populate=*`, config)
+        if (response) {
+            setOrders(response?.data?.data)
+            return response
+        }
+    }
+
+    const getOrderId = async (id) => {
+        const response = await axios.get(`${baseURL}orders?populate=*&[filters][id]=${id}`, config)
+        if (response) {
+            setOrderId(response?.data)
+            return response
+        }
+    }
+
+    // CUSTOMERs
+
+    const getCustomers = async () => {
+        const response = await axios.get(`${baseURL}users?populate=*`, config)
+        if (response) {
+            setCustomers(response?.data)
+            return response
+        }
+    }
+
+    const getStatus = async () => {
+        const response = await axios.get(`${baseURL}status-orders?populate=*`, config)
+        if (response) {
+            setStatus(response?.data?.data)
+            return response
+        }
+    }
+
+    const getUpdateStatus = async (id, statusId) => {
+
+        const res = await axios.put(
+            `${baseURL}orders/${id}?populate=*`,
+            {
+                data: {
+                    status: statusId
+                }
+            }
+        );
+        if (res) {
+            toast("Upload status successfully")
+            return res
+        }
+
+
+    }
+
     return (
         <Context.Provider
             value={{
@@ -427,6 +488,15 @@ const AppContext = ({ children }) => {
                 getCollectionId,
                 editCollection,
                 collectionId,
+                getOrder,
+                orders,
+                getCustomers,
+                customers,
+                getOrderId,
+                orderId,
+                getStatus,
+                status,
+                getUpdateStatus
             }}
         >
             {children}

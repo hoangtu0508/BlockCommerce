@@ -26,12 +26,10 @@ const ProductCart = ({ product, indexId }) => {
     const cartId = productCartState?.id
 
     const ethPrice = useSelector((state) => state?.currency?.ethPrice)
-    console.log(ethPrice);
 
     useEffect(() => {
-        console.log(ethPrice, price);
         setPriceEth(converEth(ethPrice, price))
-    }, [price])
+    }, [price, ethPrice])
 
     useEffect(() => {
         dispatch(getPriceEth())

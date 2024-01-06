@@ -135,7 +135,7 @@ const isSelectedCart = async ({ indexId, productCart, cartId }) => {
     }
 };
 
-const updateAllSelected = async ({productCart, cartId}) => {
+const updateAllSelected = async ({ productCart, cartId }) => {
     // Kiểm tra nếu productCart tồn tại
     if (productCart) {
         // Tạo một bản sao của productCart với tất cả isSelected là true
@@ -162,6 +162,14 @@ const getShipping = async () => {
     }
 }
 
+const updateCart = async ({data, cartId}) => {
+    const response = await axios.put(`${baseURL}carts/${cartId}`, { data: { products: data } }, params);
+
+    if (response.data) {
+        return response.data;
+    }
+}
+
 
 export const cartService = {
     addToCart,
@@ -172,4 +180,5 @@ export const cartService = {
     isSelectedCart,
     updateAllSelected,
     getShipping,
+    updateCart,
 }

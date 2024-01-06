@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   TableBody,
   TableContainer,
@@ -12,21 +12,29 @@ import {
   Pagination,
 } from "@windmill/react-ui";
 import response from "../utils/demo/ordersData";
+import { Context } from "../utils/AppContext";
+import { baseURLImg } from "../utils/utils";
+import { IoEyeOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const OrdersTable = ({ resultsPerPage, filter }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
 
+  const { orders, getOrder } = useContext(Context)
+
   // pagination setup
-  const totalResults = response.length;
+  const totalResults = orders?.length;
 
   // pagination change control
   function onPageChange(p) {
     setPage(p);
   }
 
-  // on page change, load new sliced data
-  // here you would make another server request for new data
+  useEffect(() => {
+    getOrder()
+  }, [])
+
   useEffect(() => {
     // If Filters Applied
     if (filter === "paid") {
@@ -71,28 +79,31 @@ const OrdersTable = ({ resultsPerPage, filter }) => {
               <TableCell>Amount</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Date</TableCell>
+              <TableCell>ACtion</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {data.map((user, i) => (
+            {orders?.map((user, i) => (
+
               <TableRow key={i}>
+
                 <TableCell>
                   <div className="flex items-center text-sm">
                     <Avatar
                       className="hidden mr-3 md:block"
-                      src={user.avatar}
+                      src={baseURLImg + user?.attributes?.userDetail[0]?.avatar[0]?.url}
                       alt="User image"
                     />
                     <div>
-                      <p className="font-semibold">{user.name}</p>
+                      <p className="font-semibold">{user?.attributes?.userDetail[0]?.username}</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">#000{i}</span>
+                  <span className="text-sm">#00{user?.id}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">$ {user.amount}</span>
+                  <span className="text-sm">$ {user?.attributes?.totalPrice}.00</span>
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -106,15 +117,28 @@ const OrdersTable = ({ resultsPerPage, filter }) => {
                             : "neutral"
                     }
                   >
-                    {user.status}
+                    {user?.attributes?.status?.data?.attributes?.statusName}
                   </Badge>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm">
-                    {/* {new Date(user.date).toLocaleDateString()} */}
+                    {new Date(user?.attributes?.createdAt).toLocaleDateString()}
                   </span>
                 </TableCell>
+
+                <TableCell>
+                  <Link to={`order/${user.id}`}>
+                    <button>
+                      <span className="text-sm flex items-center">
+                        <IoEyeOutline className="mr-2 w-5 h-auto text-yellow-400" />
+                        <h3>Order Detail</h3>
+                      </span>
+                    </button>
+                  </Link>
+                </TableCell>
+
               </TableRow>
+
             ))}
           </TableBody>
         </Table>
@@ -127,7 +151,7 @@ const OrdersTable = ({ resultsPerPage, filter }) => {
           />
         </TableFooter>
       </TableContainer>
-    </div>
+    </div >
   );
 };
 

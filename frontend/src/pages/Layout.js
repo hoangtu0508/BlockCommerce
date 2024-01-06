@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ShoppingCart from '../component/ShoppingCart/ShoppingCart';
+import Footer from '../component/Footer/Footer';
 
 const Layout = () => {
     // const [showCart, setShowCart] = useState(true)
@@ -14,6 +15,7 @@ const Layout = () => {
             {/* {showCart && <ShoppingCart setShowCart={setShowCart} showCart={showCart} />} */}
             <Headder />
             <Outlet />
+            <Footer />
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

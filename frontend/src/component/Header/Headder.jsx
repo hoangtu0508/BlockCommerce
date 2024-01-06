@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet } from '../../features/metamask/metamaskSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg'
 import { FiSearch } from 'react-icons/fi'
 import { GiLuckyFisherman } from 'react-icons/gi'
@@ -19,6 +19,7 @@ import { IoLogInOutline } from 'react-icons/io5';
 
 const Headder = () => {
     const token = localStorage.getItem("token");
+    const navigate = useNavigate()
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [showCart, setShowCart] = useState(false)
@@ -49,6 +50,12 @@ const Headder = () => {
         } else {
             toast.info("Please log in to connect your wallet!");
         }
+    }
+
+    const handleLogout = async () => {
+        await localStorage.clear()
+        await navigate('/');
+        toast.success("Logout Success");
     }
 
     return (
@@ -163,7 +170,7 @@ const Headder = () => {
 
                                                         <div className='mt-2 text-gray-600'>
                                                             <Link>
-                                                                <div className='flex items-center py-2'>
+                                                                <div className='flex items-center py-2' onClick={() => handleLogout()}>
                                                                     <span><IoLogInOutline className='w-5 h-auto mr-4' /></span>
                                                                     <h3>Log out</h3>
                                                                 </div>

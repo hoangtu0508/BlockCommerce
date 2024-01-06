@@ -25,6 +25,7 @@ const Checkout = () => {
     const ethPrice = useSelector((state) => state?.currency?.ethPrice)
 
     const productPayment = getSelectedProducts(productCart)
+
     const subtotal = calculateTotalPrice(productPayment);
 
     useEffect(() => {

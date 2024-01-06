@@ -14,10 +14,34 @@ import {
   doughnutLegends,
   lineLegends,
 } from "../utils/demo/chartsData";
-import OrdersTable from "../components/OrdersTable";;
+import OrdersTable from "../components/OrdersTable"; import { Context } from "../utils/AppContext";
+import { useState } from "react";
+import { dataChart } from "../utils/helpers";
+;
 
 function Dashboard() {
-  
+  const { customers, getCustomers, orders, getOrder } = useContext(Context)
+  const [data, setData] = useState()
+  const legend = data?.legends
+
+  useEffect(() => {
+    if (orders) {
+      setData(dataChart(orders))
+    }
+  }, [orders])
+
+  useEffect(() => {
+    getCustomers()
+    getOrder()
+
+  }, [])
+
+  console.log(legend);
+
+  const total = orders?.reduce((accumulator, currentItem) => {
+    return accumulator + currentItem?.attributes?.totalPrice;
+  }, 0);
+
   return (
     <>
       <PageTitle>Dashboard</PageTitle>
@@ -26,7 +50,7 @@ function Dashboard() {
 
       {/* <!-- Cards --> */}
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Total customers" value="765">
+        <InfoCard title="Total customers" value={customers?.length}>
           <RoundIcon
             icon={PeopleIcon}
             iconColorClass="text-orange-500 dark:text-orange-100"
@@ -35,7 +59,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Total income" value="$ 6,760.89">
+        <InfoCard title="Total income" value={`${total}.00 $`}>
           <RoundIcon
             icon={MoneyIcon}
             iconColorClass="text-green-500 dark:text-green-100"
@@ -44,7 +68,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="New Orders" value="150">
+        <InfoCard title="New Orders" value={orders?.length}>
           <RoundIcon
             icon={CartIcon}
             iconColorClass="text-blue-500 dark:text-blue-100"
@@ -69,9 +93,9 @@ function Dashboard() {
           <ChartLegend legends={lineLegends} />
         </ChartCard>
 
-        <ChartCard title="Revenue">
-          <Doughnut {...doughnutOptions} />
-          <ChartLegend legends={doughnutLegends} />
+        <ChartCard title="Revenue Category">
+          <Doughnut {...data} />
+          <ChartLegend legends={legend} />
         </ChartCard>
       </div>
 

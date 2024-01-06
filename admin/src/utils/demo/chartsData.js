@@ -21,7 +21,7 @@ export const doughnutOptions = {
   data: {
     datasets: [
       {
-        data: [33, 33, 33],
+        data: [33, 33, 20],
         /**
          * These colors come from Tailwind CSS palette
          * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
@@ -32,13 +32,13 @@ export const doughnutOptions = {
     ],
     labels: ["Shoes", "Shirts", "Bags"],
   },
-  options: {
-    responsive: true,
-    cutoutPercentage: 80,
-  },
-  legend: {
-    display: false,
-  },
+  // options: {
+  //   responsive: true,
+  //   cutoutPercentage: 80,
+  // },
+  // legend: {
+  //   display: false,
+  // },
 };
 
 export const lineOptions = {
