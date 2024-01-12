@@ -68,7 +68,7 @@ const Product = (props) => {
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                             </svg></button>
                                         </div>
-                                        <img src={baseURLImg + product?.attributes?.productImg?.data[0].attributes?.url} alt="Just a flower" className=" w-full object-fill rounded-2xl w-1/2" />
+                                        <img src={baseURLImg + product?.attributes?.productImg?.data[0].attributes?.url} alt="Just a flower" className=" object-fill rounded-2xl w-60 h-64" />
                                     </div>
                                     <div className="flex-auto justify-evenly">
                                         <div className="flex flex-wrap ">
@@ -92,7 +92,7 @@ const Product = (props) => {
                                             </div>
                                         </div>
                                         <div className='flex items-end'>
-                                            <span className="text-xl text-text font-semibold mt-1">${product?.attributes?.productPrice}.00 USD</span>
+                                            <span className="text-base text-text font-semibold mt-1">${product?.attributes?.productPrice}.00 USD</span>
                                             <div className='flex items-center'>
                                                 <span className='text-gray-400 ml-3'><FaEthereum className='text-amber-600' /></span>
                                                 <span>{priceEth?.toFixed(4)} ETH</span>
@@ -100,13 +100,13 @@ const Product = (props) => {
 
                                         </div>
                                         <div className="lg:flex  py-4  text-sm text-gray-600">
-                                            <div className="w-1/2 inline-flex items-center mb-3 mr-1">
+                                            <div className="w-1/2 inline-flex items-center mr-1">
                                                 <div className="w-full flex-none text-sm flex items-center text-gray-600">
                                                     <IoMdClock className='w-5 h-auto' />
                                                     <span className='ml-4'>{product?.attributes?.category?.data?.attributes?.categoryName}</span>
                                                 </div>
                                             </div>
-                                            <div className="w-1/2 inline-flex items-center mb-3 ml-1">
+                                            <div className="w-1/2 inline-flex items-center ml-1">
                                                 <CiRuler className='w-5 h-auto' />
                                                 <span className='ml-4'>{product?.attributes?.productDiameter} mm</span>
                                             </div>

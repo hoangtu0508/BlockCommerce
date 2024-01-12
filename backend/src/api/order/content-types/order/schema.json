@@ -41,8 +41,14 @@
     },
     "payment": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::payment.payment",
+      "inversedBy": "orders"
+    },
+    "address_ship": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::address-ship.address-ship",
       "inversedBy": "order"
     }
   }

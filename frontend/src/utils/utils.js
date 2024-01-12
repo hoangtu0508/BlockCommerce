@@ -1,5 +1,6 @@
 import axios from "axios";
 import Web3 from 'web3';
+import { baseURL, config, params } from "./api";
 
 export const calculateTotalPrice = (productPayment) => {
     return productPayment?.reduce((acc, item) => {
@@ -49,7 +50,7 @@ export const sendTransaction = async (total) => {
     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     const senderAddress = accounts[0];
     const Wei = 1e18;
-    
+
     const params = [
         {
             from: senderAddress,
@@ -98,4 +99,50 @@ export const handleConnectWallet = async () => {
 export const updateCart = (arr) => {
     return arr.filter(item => !item.isSelected);
 }
+
+export const updateReview = async ({ id, review }) => {
+    const response = await axios.get(`${baseURL}products/${id}`, params)
+
+    if (response.data) {
+        return response.data
+    }
+}
+
+export const handleSpent = (orders) => {
+    return orders?.reduce((acc, order) => {
+        return acc = acc + order.attributes?.totalPrice
+    }, 0)
+}
+
+export const getProductId = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}products/?populate=*&[filters][id]=${id}`, config);
+        if (response.data && response.data.data.length > 0) {
+            const quantity = response.data.data[0].attributes.productQuantity;
+            return quantity;
+        }
+        return 0; // Trả về 0 hoặc giá trị mặc định nếu không có dữ liệu
+    } catch (error) {
+        console.error('Error fetching product quantity:', error);
+        throw error; // Re-throw lỗi để bắt ở nơi gọi
+    }
+};
+
+export const uploadQuantity = async ({productId,quantity}) => {
+
+    console.log(productId, quantity);
+    try {
+        const res = await axios.put(
+            `${baseURL}products/${productId}?populate=*`,
+            {
+                data: {
+                    productQuantity: quantity,
+                },
+            }
+        );
+    } catch (error) {
+        console.error('Error fetching product quantity:', error);
+        throw error; // Re-throw lỗi để bắt ở nơi gọi
+    }
+};
 

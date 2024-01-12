@@ -14,7 +14,8 @@ import {
   doughnutLegends,
   lineLegends,
 } from "../utils/demo/chartsData";
-import OrdersTable from "../components/OrdersTable"; import { Context } from "../utils/AppContext";
+import OrdersTable from "../components/OrdersTable"; 
+import { Context } from "../utils/AppContext";
 import { useState } from "react";
 import { dataChart } from "../utils/helpers";
 ;

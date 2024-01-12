@@ -26,14 +26,14 @@
         "audios"
       ]
     },
+    "categoryDesc": {
+      "type": "text"
+    },
     "products": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::product.product",
       "mappedBy": "category"
-    },
-    "categoryDesc": {
-      "type": "text"
     }
   }
 }

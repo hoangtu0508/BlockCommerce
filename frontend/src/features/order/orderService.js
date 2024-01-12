@@ -1,7 +1,7 @@
 import axios from "axios"
 import { baseURL, params } from "../../utils/api"
 
-const addOrder = async ({ userId, shipId, totalAll, address, productPayment, userDataState, active }) => {
+const addOrder = async ({ userId, shipId, totalAll, address, productPayment, userDataState, active, addressShipId }) => {
     const response = await axios.post(`${baseURL}orders/?populate=*`, {
         data: {
             userId: userId,
@@ -12,6 +12,7 @@ const addOrder = async ({ userId, shipId, totalAll, address, productPayment, use
             products: productPayment,
             userDetail: userDataState,
             payment: active,
+            address_ship: addressShipId
         }
     }, params)
     if (response.data) {

@@ -14,9 +14,9 @@
     "paymentName": {
       "type": "string"
     },
-    "order": {
+    "orders": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::order.order",
       "mappedBy": "payment"
     }

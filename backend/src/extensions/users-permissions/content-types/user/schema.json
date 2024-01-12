@@ -66,14 +66,21 @@
       "type": "biginteger"
     },
     "avatar": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
+    },
+    "address_ships": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::address-ship.address-ship",
+      "mappedBy": "user"
     }
   }
 }

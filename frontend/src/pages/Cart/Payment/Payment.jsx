@@ -12,12 +12,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from '../../../features/auth/authSlice'
 import { FaEthereum } from "react-icons/fa";
 import Button from '../../../component/Button/Button'
-import { calculateTotalPrice, converEth, getSelectedProducts, sendTransaction, updateCart } from '../../../utils/utils'
+import { calculateTotalPrice, converEth, getProductId, getSelectedProducts, sendTransaction, updateCart, uploadQuantity } from '../../../utils/utils'
 import { getPriceEth } from '../../../features/currencyConverter/currencyConverterSlice'
 import { getProductCart, getShip, updateCartOrder } from '../../../features/cart/cartSlice'
 import { addOrderUser } from '../../../features/order/orderSlice'
 import { useNavigate } from 'react-router-dom'
-import PaginatedList from '../../../component/PaginatedList/PaginatedList'
+import { getAddressShipId } from '../../../features/address/addressSlice'
+import { updateQuantity } from '../../../features/product/productSlice'
+import axios from 'axios'
+import { baseURL, config } from '../../../utils/api'
 
 const Payment = () => {
     const [active, setActive] = useState(1)
@@ -37,6 +40,9 @@ const Payment = () => {
     const shipId = useSelector((state) => state?.cart?.shipId)
     const shipState = useSelector((state) => state?.cart?.ship?.data)
     const ethPrice = useSelector((state) => state?.currency?.ethPrice)
+    const addressShipId = useSelector((state) => state?.address?.addressShipID)
+    const addressShipState = useSelector((state) => state?.address?.addressShip)
+    const addressShip = addressShipState?.data[0]
 
     const productCartState = useSelector((state) => state?.cart?.productCart?.data[0])
     const productCart = productCartState?.attributes?.products
@@ -74,14 +80,19 @@ const Payment = () => {
     }, [userDataState])
 
     useEffect(() => {
+        dispatch(getAddressShipId(addressShipId))
+    }, [addressShipId])
+
+    useEffect(() => {
+        dispatch(getDataUser(userId))
+        dispatch(getProductCart(userId))
         dispatch(getPriceEth())
         dispatch(getShip())
     }, [])
 
     useEffect(() => {
-        dispatch(getDataUser(userId))
-        dispatch(getProductCart(userId))
-    }, [userId])
+
+    }, [productPayment])
 
     const handleSelectActive = (number) => {
         setActive(number)
@@ -98,12 +109,36 @@ const Payment = () => {
     const handleupdateCartOrder = () => {
         const data = updateCart(productCart)
         dispatch(updateCartOrder({ data, cartId }))
-        console.log(data);
     }
+    
+
+    const handleUploadQuantity = async () => {
+        try {
+            for (const product of productPayment) {
+                let quantity
+                const productId = product.product.id;
+                const qty = product.quantity;
+               
+                const data = await getProductId(productId);
+                if(data > 0) {
+                    quantity = data - qty
+                } else {
+                    quantity = 0
+                }
+                const updateQuantity = uploadQuantity({productId, quantity})
+            }
+        } catch (error) {
+            console.error('Error handling test:', error);
+            // Xử lý lỗi nếu cần thiết
+        }
+    };
+
 
     const handlePaymentCoinCash = async () => {
-        await dispatch(addOrderUser({ userId, shipId, totalAll, address, productPayment, userDataState, active }))
+        await dispatch(addOrderUser({ userId, shipId, totalAll, address, productPayment, userDataState, active, addressShipId }))
         await handleupdateCartOrder()
+        await handleUploadQuantity()
+        // await dispatch(updateQuantity(productPayment))
         navigate('/user/order')
     }
 
@@ -175,7 +210,7 @@ const Payment = () => {
                             <div class="relative">
                                 <input type="text" id="card-holder"
                                     class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                                    value={userDate?.name}
+                                    value={addressShip?.attributes?.nameReceive}
                                     name="name"
                                     onChange={handleChange}
 
@@ -190,7 +225,7 @@ const Payment = () => {
                             <div class="relative">
                                 <input type="number" id="card-holder"
                                     class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                                    value={userDate.phone}
+                                    value={addressShip?.attributes?.phoneReceive}
                                     name='phone'
                                     onChange={handleChange}
                                 />
@@ -203,7 +238,7 @@ const Payment = () => {
                             <label for="card-holder" class="mt-4 mb-2 block text-sm font-medium">Delivery address</label>
                             <div class="relative">
                                 <div class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                                >{address}</div>
+                                >{addressShip?.attributes?.address}</div>
                                 <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                                     <FaMapMarkerAlt class="h-5 w-4 text-gray-400" />
                                 </div>

@@ -29,6 +29,7 @@ const getUser = async (userData) => {
     }
 }
 
+
 export const authService = {
     register,
     login,

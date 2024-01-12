@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "address_ships",
+  "info": {
+    "singularName": "address-ship",
+    "pluralName": "address-ships",
+    "displayName": "AddressShip",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "address": {
+      "type": "string"
+    },
+    "phoneReceive": {
+      "type": "biginteger"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "address_ships"
+    },
+    "userId": {
+      "type": "integer"
+    },
+    "nameReceive": {
+      "type": "string"
+    },
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "mappedBy": "address_ship"
+    }
+  }
+}

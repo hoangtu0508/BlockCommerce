@@ -24,7 +24,7 @@ const OrderDetail = () => {
 
     useEffect(() => {
         dispatch(handleGetOrderId(id))
-    }, [id])
+    }, [])
     return (
         <div className='full mb-10'>
             <div className='w-full'>
@@ -144,15 +144,15 @@ const OrderDetail = () => {
                         <div className='w-1/2'>
                             <span className='font-medium py-2 border-b border-orange-600'>User Detail</span>
                             <div className='mt-4 text-sm'>
-                                <h3>Full name: {orderIdState?.attributes?.userDetail[0]?.username}</h3>
-                                <h3>Phone Number: (+84){orderIdState?.attributes?.userDetail[0]?.phone}</h3>
+                                <h3>Full name: {orderIdState?.attributes?.address_ship?.data?.attributes?.nameReceive}</h3>
+                                <h3>Phone Number: (+84){orderIdState?.attributes?.address_ship?.data?.attributes?.phoneReceive}</h3>
                             </div>
                         </div>
 
                         <div className='w-1/2'>
                             <span className='font-medium py-2 border-b border-orange-600'>Delivery Address</span>
                             <div className='mt-4 text-sm'>
-                                <h3>Address: {orderIdState?.attributes?.deliveryAddress}</h3>
+                                <h3>Address: {orderIdState?.attributes?.address_ship?.data?.attributes?.address}</h3>
                             </div>
                         </div>
                     </div>

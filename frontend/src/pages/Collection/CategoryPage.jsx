@@ -53,15 +53,15 @@ const CategoryPage = () => {
     return (
         <div className='pb-16'>
             <div className='flex justify-end items-center'>
-                <div className='w-6/12'>
+                <div className='w-4/12'>
                     <div className=''>
-                        <h1 className='text-6xl font-bold uppercase'>{categoryId?.attributes?.categoryName}'S CATEGORY</h1>
+                        <h1 className='text-4xl font-bold uppercase'>{categoryId?.attributes?.brandName}'S CATEGORY</h1>
                         <h3 className='my-6 font-bold text-sm'>Suggestions</h3>
-                        <p className='w-3/5'>{categoryId?.attributes?.categoryDesc}</p>
+                        <p className=''>{categoryId?.attributes?.brandDesc}</p>
                     </div>
                 </div>
-                <div className='w-5/12'>
-                    <img src={baseURLImg + categoryId?.attributes?.categoryImg?.data[0]?.attributes?.url} className='rounded-l-full'></img>
+                <div className='w-7/12 '>
+                    <img src={baseURLImg + categoryId?.attributes?.brandImg?.data[0]?.attributes?.url} className='rounded-l-full h-96 w-auto'></img>
                 </div>
             </div>
 

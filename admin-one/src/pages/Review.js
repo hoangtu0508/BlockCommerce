@@ -61,6 +61,57 @@ const ReviewComponent = () => {
     }
   };
 
+  // const handleAddReview = async (id) => {
+  //   try {
+  //     const web3Modal = new Web3Modal();
+  //     const provider = await web3Modal.connect();
+  //     const web3 = new Web3(provider);
+
+  //     const contract = new web3.eth.Contract(ABI, Address);
+  //     const accounts = await web3.eth.getAccounts();
+  //     const signer = accounts[0];
+
+  //     const transaction = await contract.methods.addReview(id, rating, content).send({ from: signer });
+
+  //     console.log("Mã Giao Dịch:", transaction.transactionHash);
+
+  //     const receipt = await transaction.wait();
+  //     console.log("Biên Nhận Giao Dịch:", receipt);
+
+  //     const status = receipt.status;
+
+  //     if (status === "0x1") {
+  //       // setReview({
+  //       //   productId: id,
+  //       //   reviewer: signer,
+  //       //   rating: rating,
+  //       //   comment: content,
+  //       // });
+
+  //       console.log("Đã Thêm Nhận Xét Thành Công!");
+
+  //       const event = receipt.events.ReviewAdded;
+
+  //       if (event) {
+  //         const { reviewId, reviewer, productId, rating, content } = event.returnValues;
+  //         console.log("Chi Tiết Nhận Xét:", {
+  //           reviewId,
+  //           reviewer,
+  //           productId,
+  //           rating,
+  //           content,
+  //         });
+  //       }
+  //     } else {
+  //       console.error("Thêm Nhận Xét Thất Bại. Trạng Thái: ", status);
+  //     }
+
+  //     // await handleReviewProduct({ id, review });
+  //   } catch (error) {
+  //     console.error("Lỗi khi thêm nhận xét:", error.message);
+  //   }
+  // };
+
 
   const fetchReviews = async () => {
     try {
